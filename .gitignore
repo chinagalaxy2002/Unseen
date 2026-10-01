@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Data and feature storage (accessed via symlinks or external storage)
+data/
+features/
+
+# Training runs, checkpoints, logs, and evaluation dumps
+results/
+outputs/
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.npz
+*.npy
+*.tar
+*.tar.gz
+*.zip
+*.log
+
+# Sensitive credentials
+*token*.txt
+.env
+
+# Editor & OS artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.pytest_cache/
+.ipynb_checkpoints/
