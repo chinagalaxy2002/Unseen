@@ -1,0 +1,27 @@
+[eval_main] GT: {"total": 4705, "kept": 4705, "dropped_empty": 0, "dropped_invalid": 0}
+[eval_main] shared=4705, gt_only=0, pred_only=0
+[eval_main] 2961 positive (2961 single + 0 multi), 1744 negative, time=3.9s
+{
+  "AUROC": 69.57,
+  "Rej-F1@0.4": 38.52,
+  "Acc@0.4": 69.33,
+  "Rej-F1@0.6": 42.37,
+  "Acc@0.6": 69.59,
+  "G-mIoU@1": 37.49,
+  "G-mIoU@3": 18.9,
+  "G-mIoU@5": 15.18,
+  "mAP": 38.26,
+  "mR@1": 29.35,
+  "mR@3": 42.15,
+  "mR@5": 50.38,
+  "mR+@1": 0.0,
+  "mR+@3": 0.0,
+  "mR+@5": 0.0,
+  "mIoU@1": 46.69,
+  "mIoU@3": 46.69,
+  "mIoU@5": 46.69,
+  "mIoU+@1": 0.0,
+  "mIoU+@3": 0.0,
+  "mIoU+@5": 0.0
+}
+[eval_main] Saved -> /home/guoxiangyu/VLMbasedIter_momentretrival/Unseen/results/dq_cgp_semantic_existence/C1/official_test_metrics.json

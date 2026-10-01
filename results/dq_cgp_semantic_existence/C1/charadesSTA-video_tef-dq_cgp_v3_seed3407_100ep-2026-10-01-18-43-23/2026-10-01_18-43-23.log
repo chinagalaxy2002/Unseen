@@ -1,0 +1,1203 @@
+2026-10-01 18:43:23,801 - flashvtg_dq_cgp_v3_gmr.train - INFO - Setup data and model...
+2026-10-01 18:43:52,449 - flashvtg_dq_cgp_v3_gmr.train - INFO - Model FlashVTGHSDQCGP(
+  (transformer): Transformer(
+    (t2v_encoder): TransformerCATEEncoder(
+      (layers): ModuleList(
+        (0-5): 6 x T2V_TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): Linear(in_features=256, out_features=256, bias=True)
+          )
+          (linear1): Linear(in_features=256, out_features=1024, bias=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+          (linear2): Linear(in_features=1024, out_features=256, bias=True)
+          (norm1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout1): DropPath()
+          (dropout2): DropPath()
+          (activation): PReLU(num_parameters=1)
+        )
+      )
+    )
+    (encoder): TransformerEncoder(
+      (layers): ModuleList(
+        (0-2): 3 x TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=256, out_features=256, bias=True)
+          )
+          (linear1): Linear(in_features=256, out_features=1024, bias=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+          (linear2): Linear(in_features=1024, out_features=256, bias=True)
+          (norm1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout1): DropPath()
+          (dropout2): DropPath()
+          (activation): PReLU(num_parameters=1)
+        )
+      )
+    )
+  )
+  (position_embed): PositionEmbeddingSine()
+  (txt_position_embed): TrainablePositionalEncoding(
+    (position_embeddings): Embedding(40, 256)
+    (LayerNorm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+  (saliency_proj1): Linear(in_features=256, out_features=256, bias=True)
+  (saliency_proj2): Linear(in_features=256, out_features=256, bias=True)
+  (PositionEmbeddingSine): PositionEmbeddingSine()
+  (input_txt_proj): Sequential(
+    (0): LinearLayer(
+      (LayerNorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (net): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=512, out_features=256, bias=True)
+      )
+    )
+    (1): LinearLayer(
+      (LayerNorm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (net): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+  )
+  (input_vid_proj): Sequential(
+    (0): LinearLayer(
+      (LayerNorm): LayerNorm((2818,), eps=1e-05, elementwise_affine=True)
+      (net): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=2818, out_features=256, bias=True)
+      )
+    )
+    (1): LinearLayer(
+      (LayerNorm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (net): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+  )
+  (token_type_embeddings): Embedding(2, 256)
+  (txtproj_encoder): TransformerEncoder(
+    (layers): ModuleList(
+      (0-1): 2 x TransformerEncoderLayer(
+        (self_attn): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=256, out_features=256, bias=True)
+        )
+        (linear1): Linear(in_features=256, out_features=1024, bias=True)
+        (dropout): Dropout(p=0.1, inplace=False)
+        (linear2): Linear(in_features=1024, out_features=256, bias=True)
+        (norm1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        (norm2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        (dropout1): DropPath()
+        (dropout2): DropPath()
+        (activation): PReLU(num_parameters=1)
+      )
+    )
+  )
+  (pyramid): ConvPyramid(
+    (blocks): ModuleList(
+      (0): ReLU(inplace=True)
+      (1): Sequential(
+        (0): Permute()
+        (1): Conv1d(256, 256, kernel_size=(2,), stride=(2,))
+        (2): Permute()
+        (3): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        (4): ReLU(inplace=True)
+      )
+      (2): Sequential(
+        (0): Permute()
+        (1): Conv1d(256, 256, kernel_size=(2,), stride=(2,))
+        (2): Permute()
+        (3): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        (4): ReLU(inplace=True)
+        (5): Permute()
+        (6): Conv1d(256, 256, kernel_size=(2,), stride=(2,))
+        (7): Permute()
+        (8): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        (9): ReLU(inplace=True)
+      )
+      (3): Sequential(
+        (0): Permute()
+        (1): Conv1d(256, 256, kernel_size=(2,), stride=(2,))
+        (2): Permute()
+        (3): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        (4): ReLU(inplace=True)
+        (5): Permute()
+        (6): Conv1d(256, 256, kernel_size=(2,), stride=(2,))
+        (7): Permute()
+        (8): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        (9): ReLU(inplace=True)
+        (10): Permute()
+        (11): Conv1d(256, 256, kernel_size=(2,), stride=(2,))
+        (12): Permute()
+        (13): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        (14): ReLU(inplace=True)
+      )
+    )
+  )
+  (pooling): AdaPooling(
+    (att): Linear(in_features=256, out_features=1, bias=False)
+  )
+  (conf_head): ConfidenceScorer(
+    (convs): ModuleList(
+      (0): Conv2d(256, 256, kernel_size=(1, 5), stride=(1, 1), padding=(0, 2))
+    )
+    (activations): ModuleList(
+      (0): ReLU()
+    )
+    (fc): MLP(
+      (layers): ModuleList(
+        (0): Linear(in_features=256, out_features=128, bias=True)
+        (1-3): 3 x Linear(in_features=128, out_features=128, bias=True)
+        (4): Linear(in_features=128, out_features=1, bias=True)
+      )
+    )
+  )
+  (class_head): ConfidenceScorer(
+    (convs): ModuleList(
+      (0): Conv2d(256, 256, kernel_size=(1, 5), stride=(1, 1), padding=(0, 2))
+    )
+    (activations): ModuleList(
+      (0): ReLU()
+    )
+    (fc): MLP(
+      (layers): ModuleList(
+        (0): Linear(in_features=256, out_features=128, bias=True)
+        (1-3): 3 x Linear(in_features=128, out_features=128, bias=True)
+        (4): Linear(in_features=128, out_features=1, bias=True)
+      )
+    )
+  )
+  (coord_head): ConvHead(
+    (module): Sequential(
+      (0): Permute()
+      (1): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(1,))
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 2, kernel_size=(3,), stride=(1,), padding=(1,))
+      (4): Permute()
+    )
+  )
+  (generator): PointGenerator(
+    (buffer): BufferList()
+  )
+  (dq_cgp): FlashPointHSDQCGP(
+    (candidate_norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+    (memory_norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+    (candidate_projection): Linear(in_features=256, out_features=256, bias=False)
+    (semantic_projection): Linear(in_features=256, out_features=256, bias=False)
+    (memory_key_projection): Linear(in_features=256, out_features=256, bias=False)
+    (memory_value_projection): Linear(in_features=256, out_features=256, bias=True)
+    (point_projection): Sequential(
+      (0): Linear(in_features=2, out_features=256, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=256, out_features=256, bias=True)
+    )
+    (level_embedding): Embedding(4, 256)
+    (prototype_context_projection): Linear(in_features=256, out_features=256, bias=False)
+    (prototype_semantic_projection): Linear(in_features=256, out_features=256, bias=False)
+    (prototype_candidate_projection): Linear(in_features=256, out_features=256, bias=False)
+    (prototype_score): Linear(in_features=256, out_features=1, bias=False)
+    (router_prototype_norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+    (router_semantic_norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+    (level_router): Sequential(
+      (0): Linear(in_features=768, out_features=256, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=256, out_features=16, bias=True)
+    )
+    (point_router): Sequential(
+      (0): Linear(in_features=512, out_features=128, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=128, out_features=16, bias=True)
+    )
+    (frf_context_projection): Linear(in_features=256, out_features=256, bias=True)
+    (frf): Sequential(
+      (0): Linear(in_features=1024, out_features=512, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=512, out_features=256, bias=True)
+    )
+    (residual_projection): Linear(in_features=256, out_features=256, bias=True)
+    (residual_norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+  )
+  (exist_head): Sequential(
+    (0): Linear(in_features=512, out_features=256, bias=True)
+    (1): ReLU(inplace=True)
+    (2): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+2026-10-01 18:43:52,449 - flashvtg_dq_cgp_v3_gmr.train - INFO - Learnable Parameters:
+2026-10-01 18:43:52,450 - flashvtg_dq_cgp_v3_gmr.train - INFO - Learnable Parameters: 11.646M (100.0%)
+2026-10-01 18:43:52,450 - flashvtg_dq_cgp_v3_gmr.train - INFO - Start Training...
+2026-10-01 18:43:52,450 - flashvtg_dq_cgp_v3_gmr.train - INFO - CUDA enabled.
+2026-10-01 18:43:52,534 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 1]
+2026-10-01 18:46:10,898 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_18_46_10 [Epoch] 001 [Loss] loss_reg 0.4199 loss_cls 0.0440 loss_dq_cgp_bind 0.5580 loss_dq_cgp_route 0.4336 loss_dq_cgp_relation 0.2036 loss_dq_cgp_smooth 0.0194 loss_dq_cgp_level_js 0.0204 loss_dq_cgp_adjacent_js 0.0194 loss_dq_cgp_point_correction_ratio 0.7935 loss_dq_cgp_point_effect_js 0.0285 loss_dq_cgp_level_query_js 0.2734 loss_dq_cgp_route_load_balance 0.4144 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.3582 loss_dq_cgp_effective_basis_count 10.6630 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0680 loss_dq_cgp_basis_usage_01 0.0646 loss_dq_cgp_basis_usage_02 0.0691 loss_dq_cgp_basis_usage_03 0.0734 loss_dq_cgp_basis_usage_04 0.0000 loss_dq_cgp_basis_usage_05 0.0707 loss_dq_cgp_basis_usage_06 0.0221 loss_dq_cgp_basis_usage_07 0.0727 loss_dq_cgp_basis_usage_08 0.0735 loss_dq_cgp_basis_usage_09 0.0697 loss_dq_cgp_basis_usage_10 0.0725 loss_dq_cgp_basis_usage_11 0.0703 loss_dq_cgp_basis_usage_12 0.0737 loss_dq_cgp_basis_usage_13 0.0671 loss_dq_cgp_basis_usage_14 0.0584 loss_dq_cgp_basis_usage_15 0.0740 loss_dq_cgp_relation_route_js 0.0257 loss_dq_cgp_relation_attention_js 0.4327 loss_exist 0.3993 weighted_loss_overall 1.0754
+
+2026-10-01 18:46:39,362 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 37.22),
+                ('MR-full-R1@0.5', 24.92),
+                ('MR-full-R1@0.7', 9.86),
+                ('MR-full-mAP', 20.05),
+                ('MR-full-mAP@0.5', 43.09),
+                ('MR-full-mAP@0.75', 14.75),
+                ('MR-full-mIoU', 24.53),
+                ('GMR-TPR', 98.94),
+                ('GMR-TNR', 11.02),
+                ('GMR-BalancedAcc', 54.98)])
+2026-10-01 18:46:39,362 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.94, TNR: 11.02, BalancedAcc: 54.98
+2026-10-01 18:46:39,598 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 18:46:39,798 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 2]
+2026-10-01 18:48:54,440 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_18_48_54 [Epoch] 002 [Loss] loss_reg 0.3910 loss_cls 0.0352 loss_dq_cgp_bind 0.4064 loss_dq_cgp_route 0.3371 loss_dq_cgp_relation 0.1512 loss_dq_cgp_smooth 0.0112 loss_dq_cgp_level_js 0.0371 loss_dq_cgp_adjacent_js 0.0112 loss_dq_cgp_point_correction_ratio 0.7808 loss_dq_cgp_point_effect_js 0.0281 loss_dq_cgp_level_query_js 0.2945 loss_dq_cgp_route_load_balance 0.3178 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.4547 loss_dq_cgp_effective_basis_count 11.7210 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0650 loss_dq_cgp_basis_usage_01 0.0653 loss_dq_cgp_basis_usage_02 0.0653 loss_dq_cgp_basis_usage_03 0.0652 loss_dq_cgp_basis_usage_04 0.0186 loss_dq_cgp_basis_usage_05 0.0654 loss_dq_cgp_basis_usage_06 0.0645 loss_dq_cgp_basis_usage_07 0.0672 loss_dq_cgp_basis_usage_08 0.0675 loss_dq_cgp_basis_usage_09 0.0668 loss_dq_cgp_basis_usage_10 0.0632 loss_dq_cgp_basis_usage_11 0.0650 loss_dq_cgp_basis_usage_12 0.0675 loss_dq_cgp_basis_usage_13 0.0630 loss_dq_cgp_basis_usage_14 0.0656 loss_dq_cgp_basis_usage_15 0.0650 loss_dq_cgp_relation_route_js 0.0304 loss_dq_cgp_relation_attention_js 0.4650 loss_exist 0.3563 weighted_loss_overall 0.9498
+
+2026-10-01 18:49:21,473 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 41.99),
+                ('MR-full-R1@0.5', 28.53),
+                ('MR-full-R1@0.7', 12.51),
+                ('MR-full-mAP', 21.96),
+                ('MR-full-mAP@0.5', 44.56),
+                ('MR-full-mAP@0.75', 18.23),
+                ('MR-full-mIoU', 27.42),
+                ('GMR-TPR', 98.73),
+                ('GMR-TNR', 14.17),
+                ('GMR-BalancedAcc', 56.45)])
+2026-10-01 18:49:21,474 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.73, TNR: 14.17, BalancedAcc: 56.45
+2026-10-01 18:49:21,824 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 18:49:22,075 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 3]
+2026-10-01 18:51:35,946 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_18_51_35 [Epoch] 003 [Loss] loss_reg 0.3791 loss_cls 0.0341 loss_dq_cgp_bind 0.3206 loss_dq_cgp_route 0.2682 loss_dq_cgp_relation 0.1272 loss_dq_cgp_smooth 0.0102 loss_dq_cgp_level_js 0.0852 loss_dq_cgp_adjacent_js 0.0102 loss_dq_cgp_point_correction_ratio 0.7806 loss_dq_cgp_point_effect_js 0.0280 loss_dq_cgp_level_query_js 0.3037 loss_dq_cgp_route_load_balance 0.2489 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.5237 loss_dq_cgp_effective_basis_count 12.5428 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0624 loss_dq_cgp_basis_usage_01 0.0626 loss_dq_cgp_basis_usage_02 0.0630 loss_dq_cgp_basis_usage_03 0.0644 loss_dq_cgp_basis_usage_04 0.0629 loss_dq_cgp_basis_usage_05 0.0635 loss_dq_cgp_basis_usage_06 0.0593 loss_dq_cgp_basis_usage_07 0.0644 loss_dq_cgp_basis_usage_08 0.0629 loss_dq_cgp_basis_usage_09 0.0615 loss_dq_cgp_basis_usage_10 0.0640 loss_dq_cgp_basis_usage_11 0.0606 loss_dq_cgp_basis_usage_12 0.0650 loss_dq_cgp_basis_usage_13 0.0631 loss_dq_cgp_basis_usage_14 0.0621 loss_dq_cgp_basis_usage_15 0.0584 loss_dq_cgp_relation_route_js 0.0339 loss_dq_cgp_relation_attention_js 0.4846 loss_exist 0.3406 weighted_loss_overall 0.9116
+
+2026-10-01 18:52:03,440 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 49.84),
+                ('MR-full-R1@0.5', 33.4),
+                ('MR-full-R1@0.7', 15.8),
+                ('MR-full-mAP', 25.19),
+                ('MR-full-mAP@0.5', 50.96),
+                ('MR-full-mAP@0.75', 21.65),
+                ('MR-full-mIoU', 33.13),
+                ('GMR-TPR', 97.67),
+                ('GMR-TNR', 18.5),
+                ('GMR-BalancedAcc', 58.09)])
+2026-10-01 18:52:03,441 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.67, TNR: 18.50, BalancedAcc: 58.09
+2026-10-01 18:52:03,784 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 18:52:04,046 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 4]
+2026-10-01 18:54:17,148 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_18_54_17 [Epoch] 004 [Loss] loss_reg 0.3689 loss_cls 0.0330 loss_dq_cgp_bind 0.2527 loss_dq_cgp_route 0.1816 loss_dq_cgp_relation 0.1132 loss_dq_cgp_smooth 0.0092 loss_dq_cgp_level_js 0.2871 loss_dq_cgp_adjacent_js 0.0092 loss_dq_cgp_point_correction_ratio 0.8309 loss_dq_cgp_point_effect_js 0.0298 loss_dq_cgp_level_query_js 0.2695 loss_dq_cgp_route_load_balance 0.1624 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.6102 loss_dq_cgp_effective_basis_count 13.6434 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0623 loss_dq_cgp_basis_usage_01 0.0636 loss_dq_cgp_basis_usage_02 0.0656 loss_dq_cgp_basis_usage_03 0.0666 loss_dq_cgp_basis_usage_04 0.0675 loss_dq_cgp_basis_usage_05 0.0600 loss_dq_cgp_basis_usage_06 0.0603 loss_dq_cgp_basis_usage_07 0.0599 loss_dq_cgp_basis_usage_08 0.0623 loss_dq_cgp_basis_usage_09 0.0627 loss_dq_cgp_basis_usage_10 0.0672 loss_dq_cgp_basis_usage_11 0.0623 loss_dq_cgp_basis_usage_12 0.0612 loss_dq_cgp_basis_usage_13 0.0597 loss_dq_cgp_basis_usage_14 0.0614 loss_dq_cgp_basis_usage_15 0.0573 loss_dq_cgp_relation_route_js 0.0363 loss_dq_cgp_relation_attention_js 0.5000 loss_exist 0.3332 weighted_loss_overall 0.8839
+
+2026-10-01 18:54:44,681 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 47.3),
+                ('MR-full-R1@0.5', 35.52),
+                ('MR-full-R1@0.7', 15.69),
+                ('MR-full-mAP', 24.72),
+                ('MR-full-mAP@0.5', 48.48),
+                ('MR-full-mAP@0.75', 21.28),
+                ('MR-full-mIoU', 31.41),
+                ('GMR-TPR', 98.52),
+                ('GMR-TNR', 17.91),
+                ('GMR-BalancedAcc', 58.21)])
+2026-10-01 18:54:44,682 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.52, TNR: 17.91, BalancedAcc: 58.21
+2026-10-01 18:54:45,002 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 18:54:45,262 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 5]
+2026-10-01 18:56:58,943 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_18_56_58 [Epoch] 005 [Loss] loss_reg 0.3605 loss_cls 0.0323 loss_dq_cgp_bind 0.2033 loss_dq_cgp_route 0.1273 loss_dq_cgp_relation 0.0879 loss_dq_cgp_smooth 0.0077 loss_dq_cgp_level_js 0.4177 loss_dq_cgp_adjacent_js 0.0077 loss_dq_cgp_point_correction_ratio 0.8997 loss_dq_cgp_point_effect_js 0.0323 loss_dq_cgp_level_query_js 0.2289 loss_dq_cgp_route_load_balance 0.1081 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.6645 loss_dq_cgp_effective_basis_count 14.3790 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0625 loss_dq_cgp_basis_usage_01 0.0643 loss_dq_cgp_basis_usage_02 0.0627 loss_dq_cgp_basis_usage_03 0.0650 loss_dq_cgp_basis_usage_04 0.0655 loss_dq_cgp_basis_usage_05 0.0630 loss_dq_cgp_basis_usage_06 0.0595 loss_dq_cgp_basis_usage_07 0.0601 loss_dq_cgp_basis_usage_08 0.0647 loss_dq_cgp_basis_usage_09 0.0613 loss_dq_cgp_basis_usage_10 0.0659 loss_dq_cgp_basis_usage_11 0.0620 loss_dq_cgp_basis_usage_12 0.0601 loss_dq_cgp_basis_usage_13 0.0605 loss_dq_cgp_basis_usage_14 0.0622 loss_dq_cgp_basis_usage_15 0.0606 loss_dq_cgp_relation_route_js 0.0403 loss_dq_cgp_relation_attention_js 0.5120 loss_exist 0.3260 weighted_loss_overall 0.8610
+
+2026-10-01 18:57:26,509 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 52.17),
+                ('MR-full-R1@0.5', 38.39),
+                ('MR-full-R1@0.7', 17.07),
+                ('MR-full-mAP', 28.12),
+                ('MR-full-mAP@0.5', 54.6),
+                ('MR-full-mAP@0.75', 25.31),
+                ('MR-full-mIoU', 35.63),
+                ('GMR-TPR', 98.2),
+                ('GMR-TNR', 19.88),
+                ('GMR-BalancedAcc', 59.04)])
+2026-10-01 18:57:26,509 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.20, TNR: 19.88, BalancedAcc: 59.04
+2026-10-01 18:57:27,195 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 18:57:27,928 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 6]
+2026-10-01 18:59:42,604 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_18_59_42 [Epoch] 006 [Loss] loss_reg 0.3534 loss_cls 0.0317 loss_dq_cgp_bind 0.1667 loss_dq_cgp_route 0.1237 loss_dq_cgp_relation 0.0834 loss_dq_cgp_smooth 0.0077 loss_dq_cgp_level_js 0.4303 loss_dq_cgp_adjacent_js 0.0077 loss_dq_cgp_point_correction_ratio 0.9032 loss_dq_cgp_point_effect_js 0.0323 loss_dq_cgp_level_query_js 0.2272 loss_dq_cgp_route_load_balance 0.1045 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.6681 loss_dq_cgp_effective_basis_count 14.4299 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0650 loss_dq_cgp_basis_usage_01 0.0624 loss_dq_cgp_basis_usage_02 0.0646 loss_dq_cgp_basis_usage_03 0.0629 loss_dq_cgp_basis_usage_04 0.0619 loss_dq_cgp_basis_usage_05 0.0609 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0616 loss_dq_cgp_basis_usage_08 0.0620 loss_dq_cgp_basis_usage_09 0.0631 loss_dq_cgp_basis_usage_10 0.0618 loss_dq_cgp_basis_usage_11 0.0657 loss_dq_cgp_basis_usage_12 0.0622 loss_dq_cgp_basis_usage_13 0.0623 loss_dq_cgp_basis_usage_14 0.0610 loss_dq_cgp_basis_usage_15 0.0592 loss_dq_cgp_relation_route_js 0.0420 loss_dq_cgp_relation_attention_js 0.5216 loss_exist 0.3250 weighted_loss_overall 0.8479
+
+2026-10-01 19:00:10,346 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 55.14),
+                ('MR-full-R1@0.5', 39.45),
+                ('MR-full-R1@0.7', 20.04),
+                ('MR-full-mAP', 29.15),
+                ('MR-full-mAP@0.5', 55.78),
+                ('MR-full-mAP@0.75', 25.88),
+                ('MR-full-mIoU', 38.03),
+                ('GMR-TPR', 98.41),
+                ('GMR-TNR', 20.28),
+                ('GMR-BalancedAcc', 59.34)])
+2026-10-01 19:00:10,347 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.41, TNR: 20.28, BalancedAcc: 59.34
+2026-10-01 19:00:10,798 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:00:11,063 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 7]
+2026-10-01 19:02:25,958 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_02_25 [Epoch] 007 [Loss] loss_reg 0.3451 loss_cls 0.0312 loss_dq_cgp_bind 0.1493 loss_dq_cgp_route 0.1046 loss_dq_cgp_relation 0.0721 loss_dq_cgp_smooth 0.0071 loss_dq_cgp_level_js 0.4707 loss_dq_cgp_adjacent_js 0.0071 loss_dq_cgp_point_correction_ratio 0.9194 loss_dq_cgp_point_effect_js 0.0328 loss_dq_cgp_level_query_js 0.2141 loss_dq_cgp_route_load_balance 0.0854 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.6872 loss_dq_cgp_effective_basis_count 14.7025 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0626 loss_dq_cgp_basis_usage_01 0.0634 loss_dq_cgp_basis_usage_02 0.0635 loss_dq_cgp_basis_usage_03 0.0637 loss_dq_cgp_basis_usage_04 0.0633 loss_dq_cgp_basis_usage_05 0.0628 loss_dq_cgp_basis_usage_06 0.0603 loss_dq_cgp_basis_usage_07 0.0613 loss_dq_cgp_basis_usage_08 0.0628 loss_dq_cgp_basis_usage_09 0.0616 loss_dq_cgp_basis_usage_10 0.0643 loss_dq_cgp_basis_usage_11 0.0629 loss_dq_cgp_basis_usage_12 0.0621 loss_dq_cgp_basis_usage_13 0.0609 loss_dq_cgp_basis_usage_14 0.0629 loss_dq_cgp_basis_usage_15 0.0616 loss_dq_cgp_relation_route_js 0.0435 loss_dq_cgp_relation_attention_js 0.5242 loss_exist 0.3185 weighted_loss_overall 0.8296
+
+2026-10-01 19:02:53,123 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 57.05),
+                ('MR-full-R1@0.5', 44.43),
+                ('MR-full-R1@0.7', 24.39),
+                ('MR-full-mAP', 32.47),
+                ('MR-full-mAP@0.5', 57.76),
+                ('MR-full-mAP@0.75', 30.49),
+                ('MR-full-mIoU', 39.64),
+                ('GMR-TPR', 97.56),
+                ('GMR-TNR', 26.18),
+                ('GMR-BalancedAcc', 61.87)])
+2026-10-01 19:02:53,124 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.56, TNR: 26.18, BalancedAcc: 61.87
+2026-10-01 19:02:53,390 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:02:53,640 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 8]
+2026-10-01 19:05:07,250 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_05_07 [Epoch] 008 [Loss] loss_reg 0.3384 loss_cls 0.0308 loss_dq_cgp_bind 0.1325 loss_dq_cgp_route 0.0924 loss_dq_cgp_relation 0.0594 loss_dq_cgp_smooth 0.0070 loss_dq_cgp_level_js 0.5045 loss_dq_cgp_adjacent_js 0.0070 loss_dq_cgp_point_correction_ratio 0.9383 loss_dq_cgp_point_effect_js 0.0335 loss_dq_cgp_level_query_js 0.1947 loss_dq_cgp_route_load_balance 0.0732 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.6994 loss_dq_cgp_effective_basis_count 14.8793 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0630 loss_dq_cgp_basis_usage_01 0.0636 loss_dq_cgp_basis_usage_02 0.0628 loss_dq_cgp_basis_usage_03 0.0632 loss_dq_cgp_basis_usage_04 0.0631 loss_dq_cgp_basis_usage_05 0.0628 loss_dq_cgp_basis_usage_06 0.0615 loss_dq_cgp_basis_usage_07 0.0623 loss_dq_cgp_basis_usage_08 0.0624 loss_dq_cgp_basis_usage_09 0.0610 loss_dq_cgp_basis_usage_10 0.0630 loss_dq_cgp_basis_usage_11 0.0636 loss_dq_cgp_basis_usage_12 0.0623 loss_dq_cgp_basis_usage_13 0.0611 loss_dq_cgp_basis_usage_14 0.0623 loss_dq_cgp_basis_usage_15 0.0618 loss_dq_cgp_relation_route_js 0.0455 loss_dq_cgp_relation_attention_js 0.5274 loss_exist 0.3135 weighted_loss_overall 0.8148
+
+2026-10-01 19:05:34,532 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 59.07),
+                ('MR-full-R1@0.5', 43.8),
+                ('MR-full-R1@0.7', 23.54),
+                ('MR-full-mAP', 31.63),
+                ('MR-full-mAP@0.5', 57.53),
+                ('MR-full-mAP@0.75', 29.12),
+                ('MR-full-mIoU', 40.07),
+                ('GMR-TPR', 97.88),
+                ('GMR-TNR', 23.62),
+                ('GMR-BalancedAcc', 60.75)])
+2026-10-01 19:05:34,533 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.88, TNR: 23.62, BalancedAcc: 60.75
+2026-10-01 19:05:34,785 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 9]
+2026-10-01 19:07:47,454 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_07_47 [Epoch] 009 [Loss] loss_reg 0.3295 loss_cls 0.0303 loss_dq_cgp_bind 0.1192 loss_dq_cgp_route 0.0853 loss_dq_cgp_relation 0.0529 loss_dq_cgp_smooth 0.0074 loss_dq_cgp_level_js 0.5165 loss_dq_cgp_adjacent_js 0.0074 loss_dq_cgp_point_correction_ratio 0.9460 loss_dq_cgp_point_effect_js 0.0337 loss_dq_cgp_level_query_js 0.1875 loss_dq_cgp_route_load_balance 0.0661 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7065 loss_dq_cgp_effective_basis_count 14.9853 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0628 loss_dq_cgp_basis_usage_01 0.0638 loss_dq_cgp_basis_usage_02 0.0622 loss_dq_cgp_basis_usage_03 0.0633 loss_dq_cgp_basis_usage_04 0.0633 loss_dq_cgp_basis_usage_05 0.0627 loss_dq_cgp_basis_usage_06 0.0622 loss_dq_cgp_basis_usage_07 0.0618 loss_dq_cgp_basis_usage_08 0.0638 loss_dq_cgp_basis_usage_09 0.0600 loss_dq_cgp_basis_usage_10 0.0645 loss_dq_cgp_basis_usage_11 0.0622 loss_dq_cgp_basis_usage_12 0.0617 loss_dq_cgp_basis_usage_13 0.0610 loss_dq_cgp_basis_usage_14 0.0629 loss_dq_cgp_basis_usage_15 0.0617 loss_dq_cgp_relation_route_js 0.0462 loss_dq_cgp_relation_attention_js 0.5234 loss_exist 0.3132 weighted_loss_overall 0.8021
+
+2026-10-01 19:08:14,953 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 57.58),
+                ('MR-full-R1@0.5', 44.86),
+                ('MR-full-R1@0.7', 25.87),
+                ('MR-full-mAP', 33.53),
+                ('MR-full-mAP@0.5', 59.05),
+                ('MR-full-mAP@0.75', 31.18),
+                ('MR-full-mIoU', 40.38),
+                ('GMR-TPR', 97.77),
+                ('GMR-TNR', 24.21),
+                ('GMR-BalancedAcc', 60.99)])
+2026-10-01 19:08:14,953 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.77, TNR: 24.21, BalancedAcc: 60.99
+2026-10-01 19:08:15,488 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:08:16,394 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 10]
+2026-10-01 19:10:30,474 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_10_30 [Epoch] 010 [Loss] loss_reg 0.3250 loss_cls 0.0298 loss_dq_cgp_bind 0.1136 loss_dq_cgp_route 0.0837 loss_dq_cgp_relation 0.0469 loss_dq_cgp_smooth 0.0080 loss_dq_cgp_level_js 0.5231 loss_dq_cgp_adjacent_js 0.0080 loss_dq_cgp_point_correction_ratio 0.9515 loss_dq_cgp_point_effect_js 0.0338 loss_dq_cgp_level_query_js 0.1837 loss_dq_cgp_route_load_balance 0.0645 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7081 loss_dq_cgp_effective_basis_count 15.0093 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0632 loss_dq_cgp_basis_usage_01 0.0634 loss_dq_cgp_basis_usage_02 0.0633 loss_dq_cgp_basis_usage_03 0.0623 loss_dq_cgp_basis_usage_04 0.0621 loss_dq_cgp_basis_usage_05 0.0626 loss_dq_cgp_basis_usage_06 0.0628 loss_dq_cgp_basis_usage_07 0.0619 loss_dq_cgp_basis_usage_08 0.0628 loss_dq_cgp_basis_usage_09 0.0608 loss_dq_cgp_basis_usage_10 0.0636 loss_dq_cgp_basis_usage_11 0.0630 loss_dq_cgp_basis_usage_12 0.0618 loss_dq_cgp_basis_usage_13 0.0617 loss_dq_cgp_basis_usage_14 0.0623 loss_dq_cgp_basis_usage_15 0.0623 loss_dq_cgp_relation_route_js 0.0468 loss_dq_cgp_relation_attention_js 0.5217 loss_exist 0.3045 weighted_loss_overall 0.7858
+
+2026-10-01 19:10:58,114 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 58.75),
+                ('MR-full-R1@0.5', 47.72),
+                ('MR-full-R1@0.7', 28.42),
+                ('MR-full-mAP', 34.33),
+                ('MR-full-mAP@0.5', 60.7),
+                ('MR-full-mAP@0.75', 32.39),
+                ('MR-full-mIoU', 41.73),
+                ('GMR-TPR', 97.99),
+                ('GMR-TNR', 25.0),
+                ('GMR-BalancedAcc', 61.49)])
+2026-10-01 19:10:58,115 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.99, TNR: 25.00, BalancedAcc: 61.49
+2026-10-01 19:10:58,411 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:10:59,304 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 11]
+2026-10-01 19:13:13,745 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_13_13 [Epoch] 011 [Loss] loss_reg 0.3188 loss_cls 0.0294 loss_dq_cgp_bind 0.1092 loss_dq_cgp_route 0.0788 loss_dq_cgp_relation 0.0439 loss_dq_cgp_smooth 0.0082 loss_dq_cgp_level_js 0.5329 loss_dq_cgp_adjacent_js 0.0082 loss_dq_cgp_point_correction_ratio 0.9549 loss_dq_cgp_point_effect_js 0.0338 loss_dq_cgp_level_query_js 0.1764 loss_dq_cgp_route_load_balance 0.0596 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7130 loss_dq_cgp_effective_basis_count 15.0819 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0638 loss_dq_cgp_basis_usage_01 0.0624 loss_dq_cgp_basis_usage_02 0.0639 loss_dq_cgp_basis_usage_03 0.0620 loss_dq_cgp_basis_usage_04 0.0619 loss_dq_cgp_basis_usage_05 0.0627 loss_dq_cgp_basis_usage_06 0.0638 loss_dq_cgp_basis_usage_07 0.0618 loss_dq_cgp_basis_usage_08 0.0627 loss_dq_cgp_basis_usage_09 0.0618 loss_dq_cgp_basis_usage_10 0.0621 loss_dq_cgp_basis_usage_11 0.0638 loss_dq_cgp_basis_usage_12 0.0618 loss_dq_cgp_basis_usage_13 0.0621 loss_dq_cgp_basis_usage_14 0.0616 loss_dq_cgp_basis_usage_15 0.0619 loss_dq_cgp_relation_route_js 0.0463 loss_dq_cgp_relation_attention_js 0.5100 loss_exist 0.3014 weighted_loss_overall 0.7745
+
+2026-10-01 19:13:41,864 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 61.4),
+                ('MR-full-R1@0.5', 49.2),
+                ('MR-full-R1@0.7', 28.0),
+                ('MR-full-mAP', 35.0),
+                ('MR-full-mAP@0.5', 61.32),
+                ('MR-full-mAP@0.75', 33.19),
+                ('MR-full-mIoU', 43.39),
+                ('GMR-TPR', 97.67),
+                ('GMR-TNR', 26.77),
+                ('GMR-BalancedAcc', 62.22)])
+2026-10-01 19:13:41,864 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.67, TNR: 26.77, BalancedAcc: 62.22
+2026-10-01 19:13:42,584 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:13:42,850 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 12]
+2026-10-01 19:15:57,700 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_15_57 [Epoch] 012 [Loss] loss_reg 0.3144 loss_cls 0.0290 loss_dq_cgp_bind 0.1052 loss_dq_cgp_route 0.0735 loss_dq_cgp_relation 0.0415 loss_dq_cgp_smooth 0.0085 loss_dq_cgp_level_js 0.5491 loss_dq_cgp_adjacent_js 0.0085 loss_dq_cgp_point_correction_ratio 0.9568 loss_dq_cgp_point_effect_js 0.0338 loss_dq_cgp_level_query_js 0.1606 loss_dq_cgp_route_load_balance 0.0542 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7183 loss_dq_cgp_effective_basis_count 15.1613 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0636 loss_dq_cgp_basis_usage_01 0.0636 loss_dq_cgp_basis_usage_02 0.0636 loss_dq_cgp_basis_usage_03 0.0623 loss_dq_cgp_basis_usage_04 0.0619 loss_dq_cgp_basis_usage_05 0.0624 loss_dq_cgp_basis_usage_06 0.0632 loss_dq_cgp_basis_usage_07 0.0614 loss_dq_cgp_basis_usage_08 0.0638 loss_dq_cgp_basis_usage_09 0.0616 loss_dq_cgp_basis_usage_10 0.0630 loss_dq_cgp_basis_usage_11 0.0635 loss_dq_cgp_basis_usage_12 0.0613 loss_dq_cgp_basis_usage_13 0.0616 loss_dq_cgp_basis_usage_14 0.0621 loss_dq_cgp_basis_usage_15 0.0610 loss_dq_cgp_relation_route_js 0.0460 loss_dq_cgp_relation_attention_js 0.5011 loss_exist 0.2955 weighted_loss_overall 0.7616
+
+2026-10-01 19:16:25,219 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 60.23),
+                ('MR-full-R1@0.5', 51.22),
+                ('MR-full-R1@0.7', 30.22),
+                ('MR-full-mAP', 35.66),
+                ('MR-full-mAP@0.5', 63.45),
+                ('MR-full-mAP@0.75', 33.34),
+                ('MR-full-mIoU', 43.19),
+                ('GMR-TPR', 98.62),
+                ('GMR-TNR', 22.64),
+                ('GMR-BalancedAcc', 60.63)])
+2026-10-01 19:16:25,219 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.62, TNR: 22.64, BalancedAcc: 60.63
+2026-10-01 19:16:25,478 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:16:26,231 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 13]
+2026-10-01 19:18:41,348 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_18_41 [Epoch] 013 [Loss] loss_reg 0.3083 loss_cls 0.0287 loss_dq_cgp_bind 0.1008 loss_dq_cgp_route 0.0708 loss_dq_cgp_relation 0.0408 loss_dq_cgp_smooth 0.0086 loss_dq_cgp_level_js 0.5519 loss_dq_cgp_adjacent_js 0.0086 loss_dq_cgp_point_correction_ratio 0.9560 loss_dq_cgp_point_effect_js 0.0338 loss_dq_cgp_level_query_js 0.1563 loss_dq_cgp_route_load_balance 0.0516 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7210 loss_dq_cgp_effective_basis_count 15.2009 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0632 loss_dq_cgp_basis_usage_01 0.0639 loss_dq_cgp_basis_usage_02 0.0635 loss_dq_cgp_basis_usage_03 0.0632 loss_dq_cgp_basis_usage_04 0.0615 loss_dq_cgp_basis_usage_05 0.0623 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0612 loss_dq_cgp_basis_usage_08 0.0630 loss_dq_cgp_basis_usage_09 0.0616 loss_dq_cgp_basis_usage_10 0.0636 loss_dq_cgp_basis_usage_11 0.0633 loss_dq_cgp_basis_usage_12 0.0604 loss_dq_cgp_basis_usage_13 0.0616 loss_dq_cgp_basis_usage_14 0.0631 loss_dq_cgp_basis_usage_15 0.0612 loss_dq_cgp_relation_route_js 0.0458 loss_dq_cgp_relation_attention_js 0.4969 loss_exist 0.2940 weighted_loss_overall 0.7524
+
+2026-10-01 19:19:08,773 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 59.7),
+                ('MR-full-R1@0.5', 49.31),
+                ('MR-full-R1@0.7', 28.84),
+                ('MR-full-mAP', 35.34),
+                ('MR-full-mAP@0.5', 61.08),
+                ('MR-full-mAP@0.75', 34.91),
+                ('MR-full-mIoU', 42.68),
+                ('GMR-TPR', 98.41),
+                ('GMR-TNR', 25.0),
+                ('GMR-BalancedAcc', 61.7)])
+2026-10-01 19:19:08,774 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.41, TNR: 25.00, BalancedAcc: 61.70
+2026-10-01 19:19:09,360 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 14]
+2026-10-01 19:21:23,747 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_21_23 [Epoch] 014 [Loss] loss_reg 0.3042 loss_cls 0.0283 loss_dq_cgp_bind 0.0976 loss_dq_cgp_route 0.0689 loss_dq_cgp_relation 0.0405 loss_dq_cgp_smooth 0.0087 loss_dq_cgp_level_js 0.5603 loss_dq_cgp_adjacent_js 0.0087 loss_dq_cgp_point_correction_ratio 0.9542 loss_dq_cgp_point_effect_js 0.0337 loss_dq_cgp_level_query_js 0.1502 loss_dq_cgp_route_load_balance 0.0497 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7229 loss_dq_cgp_effective_basis_count 15.2301 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0641 loss_dq_cgp_basis_usage_01 0.0635 loss_dq_cgp_basis_usage_02 0.0642 loss_dq_cgp_basis_usage_03 0.0613 loss_dq_cgp_basis_usage_04 0.0612 loss_dq_cgp_basis_usage_05 0.0619 loss_dq_cgp_basis_usage_06 0.0643 loss_dq_cgp_basis_usage_07 0.0618 loss_dq_cgp_basis_usage_08 0.0621 loss_dq_cgp_basis_usage_09 0.0621 loss_dq_cgp_basis_usage_10 0.0630 loss_dq_cgp_basis_usage_11 0.0645 loss_dq_cgp_basis_usage_12 0.0615 loss_dq_cgp_basis_usage_13 0.0617 loss_dq_cgp_basis_usage_14 0.0614 loss_dq_cgp_basis_usage_15 0.0614 loss_dq_cgp_relation_route_js 0.0448 loss_dq_cgp_relation_attention_js 0.4851 loss_exist 0.2900 weighted_loss_overall 0.7423
+
+2026-10-01 19:21:51,233 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 60.66),
+                ('MR-full-R1@0.5', 53.02),
+                ('MR-full-R1@0.7', 30.65),
+                ('MR-full-mAP', 35.81),
+                ('MR-full-mAP@0.5', 63.19),
+                ('MR-full-mAP@0.75', 33.89),
+                ('MR-full-mIoU', 43.89),
+                ('GMR-TPR', 96.82),
+                ('GMR-TNR', 29.92),
+                ('GMR-BalancedAcc', 63.37)])
+2026-10-01 19:21:51,234 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.82, TNR: 29.92, BalancedAcc: 63.37
+2026-10-01 19:21:51,488 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:21:51,763 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 15]
+2026-10-01 19:24:06,706 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_24_06 [Epoch] 015 [Loss] loss_reg 0.2992 loss_cls 0.0281 loss_dq_cgp_bind 0.0942 loss_dq_cgp_route 0.0674 loss_dq_cgp_relation 0.0403 loss_dq_cgp_smooth 0.0086 loss_dq_cgp_level_js 0.5635 loss_dq_cgp_adjacent_js 0.0086 loss_dq_cgp_point_correction_ratio 0.9523 loss_dq_cgp_point_effect_js 0.0337 loss_dq_cgp_level_query_js 0.1451 loss_dq_cgp_route_load_balance 0.0482 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7244 loss_dq_cgp_effective_basis_count 15.2525 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0641 loss_dq_cgp_basis_usage_01 0.0624 loss_dq_cgp_basis_usage_02 0.0642 loss_dq_cgp_basis_usage_03 0.0620 loss_dq_cgp_basis_usage_04 0.0619 loss_dq_cgp_basis_usage_05 0.0620 loss_dq_cgp_basis_usage_06 0.0641 loss_dq_cgp_basis_usage_07 0.0625 loss_dq_cgp_basis_usage_08 0.0617 loss_dq_cgp_basis_usage_09 0.0623 loss_dq_cgp_basis_usage_10 0.0624 loss_dq_cgp_basis_usage_11 0.0641 loss_dq_cgp_basis_usage_12 0.0608 loss_dq_cgp_basis_usage_13 0.0626 loss_dq_cgp_basis_usage_14 0.0612 loss_dq_cgp_basis_usage_15 0.0617 loss_dq_cgp_relation_route_js 0.0442 loss_dq_cgp_relation_attention_js 0.4792 loss_exist 0.2874 weighted_loss_overall 0.7332
+
+2026-10-01 19:24:34,247 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 62.04),
+                ('MR-full-R1@0.5', 51.01),
+                ('MR-full-R1@0.7', 29.37),
+                ('MR-full-mAP', 35.4),
+                ('MR-full-mAP@0.5', 62.14),
+                ('MR-full-mAP@0.75', 33.51),
+                ('MR-full-mIoU', 43.63),
+                ('GMR-TPR', 98.94),
+                ('GMR-TNR', 22.44),
+                ('GMR-BalancedAcc', 60.69)])
+2026-10-01 19:24:34,247 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.94, TNR: 22.44, BalancedAcc: 60.69
+2026-10-01 19:24:34,513 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 16]
+2026-10-01 19:26:51,059 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_26_51 [Epoch] 016 [Loss] loss_reg 0.2944 loss_cls 0.0277 loss_dq_cgp_bind 0.0869 loss_dq_cgp_route 0.0670 loss_dq_cgp_relation 0.0408 loss_dq_cgp_smooth 0.0086 loss_dq_cgp_level_js 0.5642 loss_dq_cgp_adjacent_js 0.0086 loss_dq_cgp_point_correction_ratio 0.9520 loss_dq_cgp_point_effect_js 0.0337 loss_dq_cgp_level_query_js 0.1461 loss_dq_cgp_route_load_balance 0.0478 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7248 loss_dq_cgp_effective_basis_count 15.2583 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0640 loss_dq_cgp_basis_usage_01 0.0622 loss_dq_cgp_basis_usage_02 0.0639 loss_dq_cgp_basis_usage_03 0.0618 loss_dq_cgp_basis_usage_04 0.0612 loss_dq_cgp_basis_usage_05 0.0624 loss_dq_cgp_basis_usage_06 0.0640 loss_dq_cgp_basis_usage_07 0.0626 loss_dq_cgp_basis_usage_08 0.0625 loss_dq_cgp_basis_usage_09 0.0625 loss_dq_cgp_basis_usage_10 0.0615 loss_dq_cgp_basis_usage_11 0.0641 loss_dq_cgp_basis_usage_12 0.0618 loss_dq_cgp_basis_usage_13 0.0623 loss_dq_cgp_basis_usage_14 0.0606 loss_dq_cgp_basis_usage_15 0.0625 loss_dq_cgp_relation_route_js 0.0439 loss_dq_cgp_relation_attention_js 0.4763 loss_exist 0.2858 weighted_loss_overall 0.7246
+
+2026-10-01 19:27:18,558 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 60.66),
+                ('MR-full-R1@0.5', 50.48),
+                ('MR-full-R1@0.7', 30.54),
+                ('MR-full-mAP', 36.09),
+                ('MR-full-mAP@0.5', 61.19),
+                ('MR-full-mAP@0.75', 34.36),
+                ('MR-full-mIoU', 43.74),
+                ('GMR-TPR', 98.94),
+                ('GMR-TNR', 23.03),
+                ('GMR-BalancedAcc', 60.99)])
+2026-10-01 19:27:18,558 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.94, TNR: 23.03, BalancedAcc: 60.99
+2026-10-01 19:27:18,816 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 17]
+2026-10-01 19:29:36,399 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_29_36 [Epoch] 017 [Loss] loss_reg 0.2893 loss_cls 0.0274 loss_dq_cgp_bind 0.0883 loss_dq_cgp_route 0.0637 loss_dq_cgp_relation 0.0380 loss_dq_cgp_smooth 0.0087 loss_dq_cgp_level_js 0.5727 loss_dq_cgp_adjacent_js 0.0087 loss_dq_cgp_point_correction_ratio 0.9541 loss_dq_cgp_point_effect_js 0.0338 loss_dq_cgp_level_query_js 0.1399 loss_dq_cgp_route_load_balance 0.0445 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7281 loss_dq_cgp_effective_basis_count 15.3074 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0650 loss_dq_cgp_basis_usage_01 0.0617 loss_dq_cgp_basis_usage_02 0.0649 loss_dq_cgp_basis_usage_03 0.0597 loss_dq_cgp_basis_usage_04 0.0607 loss_dq_cgp_basis_usage_05 0.0613 loss_dq_cgp_basis_usage_06 0.0648 loss_dq_cgp_basis_usage_07 0.0628 loss_dq_cgp_basis_usage_08 0.0619 loss_dq_cgp_basis_usage_09 0.0633 loss_dq_cgp_basis_usage_10 0.0615 loss_dq_cgp_basis_usage_11 0.0649 loss_dq_cgp_basis_usage_12 0.0615 loss_dq_cgp_basis_usage_13 0.0628 loss_dq_cgp_basis_usage_14 0.0602 loss_dq_cgp_basis_usage_15 0.0627 loss_dq_cgp_relation_route_js 0.0439 loss_dq_cgp_relation_attention_js 0.4743 loss_exist 0.2817 weighted_loss_overall 0.7138
+
+2026-10-01 19:30:04,452 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 61.82),
+                ('MR-full-R1@0.5', 51.43),
+                ('MR-full-R1@0.7', 30.43),
+                ('MR-full-mAP', 36.09),
+                ('MR-full-mAP@0.5', 62.57),
+                ('MR-full-mAP@0.75', 34.04),
+                ('MR-full-mIoU', 44.15),
+                ('GMR-TPR', 98.41),
+                ('GMR-TNR', 26.38),
+                ('GMR-BalancedAcc', 62.39)])
+2026-10-01 19:30:04,452 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.41, TNR: 26.38, BalancedAcc: 62.39
+2026-10-01 19:30:04,711 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 18]
+2026-10-01 19:32:19,046 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_32_19 [Epoch] 018 [Loss] loss_reg 0.2856 loss_cls 0.0272 loss_dq_cgp_bind 0.0839 loss_dq_cgp_route 0.0632 loss_dq_cgp_relation 0.0371 loss_dq_cgp_smooth 0.0088 loss_dq_cgp_level_js 0.5773 loss_dq_cgp_adjacent_js 0.0088 loss_dq_cgp_point_correction_ratio 0.9577 loss_dq_cgp_point_effect_js 0.0340 loss_dq_cgp_level_query_js 0.1371 loss_dq_cgp_route_load_balance 0.0440 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7286 loss_dq_cgp_effective_basis_count 15.3166 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0645 loss_dq_cgp_basis_usage_01 0.0617 loss_dq_cgp_basis_usage_02 0.0643 loss_dq_cgp_basis_usage_03 0.0601 loss_dq_cgp_basis_usage_04 0.0613 loss_dq_cgp_basis_usage_05 0.0611 loss_dq_cgp_basis_usage_06 0.0644 loss_dq_cgp_basis_usage_07 0.0630 loss_dq_cgp_basis_usage_08 0.0619 loss_dq_cgp_basis_usage_09 0.0631 loss_dq_cgp_basis_usage_10 0.0615 loss_dq_cgp_basis_usage_11 0.0645 loss_dq_cgp_basis_usage_12 0.0616 loss_dq_cgp_basis_usage_13 0.0627 loss_dq_cgp_basis_usage_14 0.0615 loss_dq_cgp_basis_usage_15 0.0629 loss_dq_cgp_relation_route_js 0.0437 loss_dq_cgp_relation_attention_js 0.4708 loss_exist 0.2789 weighted_loss_overall 0.7061
+
+2026-10-01 19:32:46,539 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.94),
+                ('MR-full-R1@0.5', 53.34),
+                ('MR-full-R1@0.7', 32.45),
+                ('MR-full-mAP', 36.94),
+                ('MR-full-mAP@0.5', 64.31),
+                ('MR-full-mAP@0.75', 35.71),
+                ('MR-full-mIoU', 45.18),
+                ('GMR-TPR', 97.45),
+                ('GMR-TNR', 29.13),
+                ('GMR-BalancedAcc', 63.29)])
+2026-10-01 19:32:46,540 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.45, TNR: 29.13, BalancedAcc: 63.29
+2026-10-01 19:32:46,813 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:32:47,102 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 19]
+2026-10-01 19:35:01,484 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_35_01 [Epoch] 019 [Loss] loss_reg 0.2812 loss_cls 0.0268 loss_dq_cgp_bind 0.0841 loss_dq_cgp_route 0.0593 loss_dq_cgp_relation 0.0357 loss_dq_cgp_smooth 0.0089 loss_dq_cgp_level_js 0.5829 loss_dq_cgp_adjacent_js 0.0089 loss_dq_cgp_point_correction_ratio 0.9607 loss_dq_cgp_point_effect_js 0.0341 loss_dq_cgp_level_query_js 0.1373 loss_dq_cgp_route_load_balance 0.0401 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7325 loss_dq_cgp_effective_basis_count 15.3753 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0642 loss_dq_cgp_basis_usage_01 0.0617 loss_dq_cgp_basis_usage_02 0.0641 loss_dq_cgp_basis_usage_03 0.0607 loss_dq_cgp_basis_usage_04 0.0605 loss_dq_cgp_basis_usage_05 0.0614 loss_dq_cgp_basis_usage_06 0.0641 loss_dq_cgp_basis_usage_07 0.0628 loss_dq_cgp_basis_usage_08 0.0621 loss_dq_cgp_basis_usage_09 0.0628 loss_dq_cgp_basis_usage_10 0.0620 loss_dq_cgp_basis_usage_11 0.0643 loss_dq_cgp_basis_usage_12 0.0623 loss_dq_cgp_basis_usage_13 0.0630 loss_dq_cgp_basis_usage_14 0.0608 loss_dq_cgp_basis_usage_15 0.0633 loss_dq_cgp_relation_route_js 0.0431 loss_dq_cgp_relation_attention_js 0.4641 loss_exist 0.2765 weighted_loss_overall 0.6973
+
+2026-10-01 19:35:29,189 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 61.72),
+                ('MR-full-R1@0.5', 51.33),
+                ('MR-full-R1@0.7', 32.03),
+                ('MR-full-mAP', 36.45),
+                ('MR-full-mAP@0.5', 62.4),
+                ('MR-full-mAP@0.75', 35.11),
+                ('MR-full-mIoU', 44.61),
+                ('GMR-TPR', 99.05),
+                ('GMR-TNR', 22.05),
+                ('GMR-BalancedAcc', 60.55)])
+2026-10-01 19:35:29,190 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 99.05, TNR: 22.05, BalancedAcc: 60.55
+2026-10-01 19:35:29,443 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 20]
+2026-10-01 19:37:42,836 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_37_42 [Epoch] 020 [Loss] loss_reg 0.2776 loss_cls 0.0267 loss_dq_cgp_bind 0.0826 loss_dq_cgp_route 0.0611 loss_dq_cgp_relation 0.0368 loss_dq_cgp_smooth 0.0090 loss_dq_cgp_level_js 0.5813 loss_dq_cgp_adjacent_js 0.0090 loss_dq_cgp_point_correction_ratio 0.9623 loss_dq_cgp_point_effect_js 0.0342 loss_dq_cgp_level_query_js 0.1408 loss_dq_cgp_route_load_balance 0.0419 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7307 loss_dq_cgp_effective_basis_count 15.3479 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0646 loss_dq_cgp_basis_usage_01 0.0618 loss_dq_cgp_basis_usage_02 0.0646 loss_dq_cgp_basis_usage_03 0.0608 loss_dq_cgp_basis_usage_04 0.0606 loss_dq_cgp_basis_usage_05 0.0615 loss_dq_cgp_basis_usage_06 0.0646 loss_dq_cgp_basis_usage_07 0.0630 loss_dq_cgp_basis_usage_08 0.0605 loss_dq_cgp_basis_usage_09 0.0631 loss_dq_cgp_basis_usage_10 0.0617 loss_dq_cgp_basis_usage_11 0.0647 loss_dq_cgp_basis_usage_12 0.0622 loss_dq_cgp_basis_usage_13 0.0625 loss_dq_cgp_basis_usage_14 0.0607 loss_dq_cgp_basis_usage_15 0.0632 loss_dq_cgp_relation_route_js 0.0427 loss_dq_cgp_relation_attention_js 0.4608 loss_exist 0.2691 weighted_loss_overall 0.6855
+
+2026-10-01 19:38:10,273 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 62.04),
+                ('MR-full-R1@0.5', 50.9),
+                ('MR-full-R1@0.7', 32.45),
+                ('MR-full-mAP', 36.7),
+                ('MR-full-mAP@0.5', 61.87),
+                ('MR-full-mAP@0.75', 34.71),
+                ('MR-full-mIoU', 44.82),
+                ('GMR-TPR', 98.52),
+                ('GMR-TNR', 25.39),
+                ('GMR-BalancedAcc', 61.95)])
+2026-10-01 19:38:10,273 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.52, TNR: 25.39, BalancedAcc: 61.95
+2026-10-01 19:38:10,535 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 21]
+2026-10-01 19:40:25,077 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_40_25 [Epoch] 021 [Loss] loss_reg 0.2723 loss_cls 0.0262 loss_dq_cgp_bind 0.0777 loss_dq_cgp_route 0.0595 loss_dq_cgp_relation 0.0365 loss_dq_cgp_smooth 0.0092 loss_dq_cgp_level_js 0.5871 loss_dq_cgp_adjacent_js 0.0092 loss_dq_cgp_point_correction_ratio 0.9637 loss_dq_cgp_point_effect_js 0.0342 loss_dq_cgp_level_query_js 0.1350 loss_dq_cgp_route_load_balance 0.0403 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7323 loss_dq_cgp_effective_basis_count 15.3726 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0632 loss_dq_cgp_basis_usage_01 0.0608 loss_dq_cgp_basis_usage_02 0.0632 loss_dq_cgp_basis_usage_03 0.0596 loss_dq_cgp_basis_usage_04 0.0605 loss_dq_cgp_basis_usage_05 0.0631 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0641 loss_dq_cgp_basis_usage_08 0.0606 loss_dq_cgp_basis_usage_09 0.0646 loss_dq_cgp_basis_usage_10 0.0600 loss_dq_cgp_basis_usage_11 0.0632 loss_dq_cgp_basis_usage_12 0.0630 loss_dq_cgp_basis_usage_13 0.0644 loss_dq_cgp_basis_usage_14 0.0617 loss_dq_cgp_basis_usage_15 0.0647 loss_dq_cgp_relation_route_js 0.0426 loss_dq_cgp_relation_attention_js 0.4603 loss_exist 0.2639 weighted_loss_overall 0.6723
+
+2026-10-01 19:40:52,355 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 61.51),
+                ('MR-full-R1@0.5', 52.07),
+                ('MR-full-R1@0.7', 32.03),
+                ('MR-full-mAP', 37.22),
+                ('MR-full-mAP@0.5', 63.89),
+                ('MR-full-mAP@0.75', 35.9),
+                ('MR-full-mIoU', 44.22),
+                ('GMR-TPR', 98.2),
+                ('GMR-TNR', 26.77),
+                ('GMR-BalancedAcc', 62.48)])
+2026-10-01 19:40:52,355 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.20, TNR: 26.77, BalancedAcc: 62.48
+2026-10-01 19:40:52,621 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 22]
+2026-10-01 19:43:07,593 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_43_07 [Epoch] 022 [Loss] loss_reg 0.2704 loss_cls 0.0260 loss_dq_cgp_bind 0.0781 loss_dq_cgp_route 0.0553 loss_dq_cgp_relation 0.0348 loss_dq_cgp_smooth 0.0093 loss_dq_cgp_level_js 0.5952 loss_dq_cgp_adjacent_js 0.0093 loss_dq_cgp_point_correction_ratio 0.9668 loss_dq_cgp_point_effect_js 0.0344 loss_dq_cgp_level_query_js 0.1290 loss_dq_cgp_route_load_balance 0.0361 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7365 loss_dq_cgp_effective_basis_count 15.4364 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0640 loss_dq_cgp_basis_usage_01 0.0613 loss_dq_cgp_basis_usage_02 0.0638 loss_dq_cgp_basis_usage_03 0.0599 loss_dq_cgp_basis_usage_04 0.0615 loss_dq_cgp_basis_usage_05 0.0620 loss_dq_cgp_basis_usage_06 0.0640 loss_dq_cgp_basis_usage_07 0.0632 loss_dq_cgp_basis_usage_08 0.0617 loss_dq_cgp_basis_usage_09 0.0631 loss_dq_cgp_basis_usage_10 0.0614 loss_dq_cgp_basis_usage_11 0.0640 loss_dq_cgp_basis_usage_12 0.0623 loss_dq_cgp_basis_usage_13 0.0630 loss_dq_cgp_basis_usage_14 0.0615 loss_dq_cgp_basis_usage_15 0.0635 loss_dq_cgp_relation_route_js 0.0424 loss_dq_cgp_relation_attention_js 0.4555 loss_exist 0.2623 weighted_loss_overall 0.6679
+
+2026-10-01 19:43:35,246 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.73),
+                ('MR-full-R1@0.5', 52.7),
+                ('MR-full-R1@0.7', 33.62),
+                ('MR-full-mAP', 37.36),
+                ('MR-full-mAP@0.5', 62.99),
+                ('MR-full-mAP@0.75', 36.24),
+                ('MR-full-mIoU', 45.3),
+                ('GMR-TPR', 98.3),
+                ('GMR-TNR', 25.98),
+                ('GMR-BalancedAcc', 62.14)])
+2026-10-01 19:43:35,246 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.30, TNR: 25.98, BalancedAcc: 62.14
+2026-10-01 19:43:35,508 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:43:35,764 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 23]
+2026-10-01 19:45:48,983 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_45_48 [Epoch] 023 [Loss] loss_reg 0.2667 loss_cls 0.0258 loss_dq_cgp_bind 0.0761 loss_dq_cgp_route 0.0549 loss_dq_cgp_relation 0.0335 loss_dq_cgp_smooth 0.0094 loss_dq_cgp_level_js 0.5970 loss_dq_cgp_adjacent_js 0.0094 loss_dq_cgp_point_correction_ratio 0.9676 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1266 loss_dq_cgp_route_load_balance 0.0357 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7369 loss_dq_cgp_effective_basis_count 15.4421 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0635 loss_dq_cgp_basis_usage_01 0.0618 loss_dq_cgp_basis_usage_02 0.0636 loss_dq_cgp_basis_usage_03 0.0614 loss_dq_cgp_basis_usage_04 0.0613 loss_dq_cgp_basis_usage_05 0.0627 loss_dq_cgp_basis_usage_06 0.0636 loss_dq_cgp_basis_usage_07 0.0626 loss_dq_cgp_basis_usage_08 0.0615 loss_dq_cgp_basis_usage_09 0.0629 loss_dq_cgp_basis_usage_10 0.0622 loss_dq_cgp_basis_usage_11 0.0635 loss_dq_cgp_basis_usage_12 0.0622 loss_dq_cgp_basis_usage_13 0.0623 loss_dq_cgp_basis_usage_14 0.0620 loss_dq_cgp_basis_usage_15 0.0628 loss_dq_cgp_relation_route_js 0.0420 loss_dq_cgp_relation_attention_js 0.4518 loss_exist 0.2576 weighted_loss_overall 0.6581
+
+2026-10-01 19:46:16,687 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.1),
+                ('MR-full-R1@0.5', 51.43),
+                ('MR-full-R1@0.7', 31.71),
+                ('MR-full-mAP', 37.27),
+                ('MR-full-mAP@0.5', 63.13),
+                ('MR-full-mAP@0.75', 36.85),
+                ('MR-full-mIoU', 44.96),
+                ('GMR-TPR', 98.52),
+                ('GMR-TNR', 24.41),
+                ('GMR-BalancedAcc', 61.46)])
+2026-10-01 19:46:16,687 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.52, TNR: 24.41, BalancedAcc: 61.46
+2026-10-01 19:46:17,665 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 24]
+2026-10-01 19:48:31,301 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_48_31 [Epoch] 024 [Loss] loss_reg 0.2607 loss_cls 0.0253 loss_dq_cgp_bind 0.0725 loss_dq_cgp_route 0.0544 loss_dq_cgp_relation 0.0315 loss_dq_cgp_smooth 0.0092 loss_dq_cgp_level_js 0.5977 loss_dq_cgp_adjacent_js 0.0092 loss_dq_cgp_point_correction_ratio 0.9728 loss_dq_cgp_point_effect_js 0.0348 loss_dq_cgp_level_query_js 0.1263 loss_dq_cgp_route_load_balance 0.0352 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7374 loss_dq_cgp_effective_basis_count 15.4511 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0635 loss_dq_cgp_basis_usage_01 0.0615 loss_dq_cgp_basis_usage_02 0.0633 loss_dq_cgp_basis_usage_03 0.0602 loss_dq_cgp_basis_usage_04 0.0609 loss_dq_cgp_basis_usage_05 0.0626 loss_dq_cgp_basis_usage_06 0.0634 loss_dq_cgp_basis_usage_07 0.0636 loss_dq_cgp_basis_usage_08 0.0605 loss_dq_cgp_basis_usage_09 0.0636 loss_dq_cgp_basis_usage_10 0.0615 loss_dq_cgp_basis_usage_11 0.0634 loss_dq_cgp_basis_usage_12 0.0625 loss_dq_cgp_basis_usage_13 0.0637 loss_dq_cgp_basis_usage_14 0.0623 loss_dq_cgp_basis_usage_15 0.0634 loss_dq_cgp_relation_route_js 0.0420 loss_dq_cgp_relation_attention_js 0.4501 loss_exist 0.2542 weighted_loss_overall 0.6464
+
+2026-10-01 19:48:58,980 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 61.51),
+                ('MR-full-R1@0.5', 51.01),
+                ('MR-full-R1@0.7', 32.66),
+                ('MR-full-mAP', 36.92),
+                ('MR-full-mAP@0.5', 62.59),
+                ('MR-full-mAP@0.75', 35.93),
+                ('MR-full-mIoU', 44.11),
+                ('GMR-TPR', 98.09),
+                ('GMR-TNR', 25.79),
+                ('GMR-BalancedAcc', 61.94)])
+2026-10-01 19:48:58,981 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.09, TNR: 25.79, BalancedAcc: 61.94
+2026-10-01 19:48:59,251 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 25]
+2026-10-01 19:51:15,742 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_51_15 [Epoch] 025 [Loss] loss_reg 0.2508 loss_cls 0.0247 loss_dq_cgp_bind 0.0687 loss_dq_cgp_route 0.0538 loss_dq_cgp_relation 0.0306 loss_dq_cgp_smooth 0.0093 loss_dq_cgp_level_js 0.5999 loss_dq_cgp_adjacent_js 0.0093 loss_dq_cgp_point_correction_ratio 0.9753 loss_dq_cgp_point_effect_js 0.0349 loss_dq_cgp_level_query_js 0.1249 loss_dq_cgp_route_load_balance 0.0346 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7380 loss_dq_cgp_effective_basis_count 15.4598 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0632 loss_dq_cgp_basis_usage_01 0.0622 loss_dq_cgp_basis_usage_02 0.0629 loss_dq_cgp_basis_usage_03 0.0611 loss_dq_cgp_basis_usage_04 0.0618 loss_dq_cgp_basis_usage_05 0.0627 loss_dq_cgp_basis_usage_06 0.0630 loss_dq_cgp_basis_usage_07 0.0632 loss_dq_cgp_basis_usage_08 0.0613 loss_dq_cgp_basis_usage_09 0.0631 loss_dq_cgp_basis_usage_10 0.0625 loss_dq_cgp_basis_usage_11 0.0631 loss_dq_cgp_basis_usage_12 0.0624 loss_dq_cgp_basis_usage_13 0.0631 loss_dq_cgp_basis_usage_14 0.0616 loss_dq_cgp_basis_usage_15 0.0629 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4508 loss_exist 0.2486 weighted_loss_overall 0.6275
+
+2026-10-01 19:51:42,839 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 62.25),
+                ('MR-full-R1@0.5', 52.07),
+                ('MR-full-R1@0.7', 33.19),
+                ('MR-full-mAP', 37.14),
+                ('MR-full-mAP@0.5', 63.11),
+                ('MR-full-mAP@0.75', 36.74),
+                ('MR-full-mIoU', 44.55),
+                ('GMR-TPR', 98.3),
+                ('GMR-TNR', 23.82),
+                ('GMR-BalancedAcc', 61.06)])
+2026-10-01 19:51:42,840 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.30, TNR: 23.82, BalancedAcc: 61.06
+2026-10-01 19:51:43,239 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 26]
+2026-10-01 19:53:56,923 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_53_56 [Epoch] 026 [Loss] loss_reg 0.2452 loss_cls 0.0244 loss_dq_cgp_bind 0.0656 loss_dq_cgp_route 0.0530 loss_dq_cgp_relation 0.0308 loss_dq_cgp_smooth 0.0093 loss_dq_cgp_level_js 0.5995 loss_dq_cgp_adjacent_js 0.0093 loss_dq_cgp_point_correction_ratio 0.9753 loss_dq_cgp_point_effect_js 0.0349 loss_dq_cgp_level_query_js 0.1254 loss_dq_cgp_route_load_balance 0.0338 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7388 loss_dq_cgp_effective_basis_count 15.4715 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0634 loss_dq_cgp_basis_usage_01 0.0620 loss_dq_cgp_basis_usage_02 0.0630 loss_dq_cgp_basis_usage_03 0.0606 loss_dq_cgp_basis_usage_04 0.0614 loss_dq_cgp_basis_usage_05 0.0628 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0625 loss_dq_cgp_basis_usage_08 0.0619 loss_dq_cgp_basis_usage_09 0.0633 loss_dq_cgp_basis_usage_10 0.0616 loss_dq_cgp_basis_usage_11 0.0633 loss_dq_cgp_basis_usage_12 0.0622 loss_dq_cgp_basis_usage_13 0.0627 loss_dq_cgp_basis_usage_14 0.0629 loss_dq_cgp_basis_usage_15 0.0630 loss_dq_cgp_relation_route_js 0.0424 loss_dq_cgp_relation_attention_js 0.4524 loss_exist 0.2383 weighted_loss_overall 0.6097
+
+2026-10-01 19:54:24,653 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.31),
+                ('MR-full-R1@0.5', 53.87),
+                ('MR-full-R1@0.7', 34.57),
+                ('MR-full-mAP', 37.73),
+                ('MR-full-mAP@0.5', 64.4),
+                ('MR-full-mAP@0.75', 36.49),
+                ('MR-full-mIoU', 45.53),
+                ('GMR-TPR', 97.77),
+                ('GMR-TNR', 26.57),
+                ('GMR-BalancedAcc', 62.17)])
+2026-10-01 19:54:24,654 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.77, TNR: 26.57, BalancedAcc: 62.17
+2026-10-01 19:54:24,924 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 19:54:25,181 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 27]
+2026-10-01 19:56:39,385 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_56_39 [Epoch] 027 [Loss] loss_reg 0.2432 loss_cls 0.0241 loss_dq_cgp_bind 0.0679 loss_dq_cgp_route 0.0525 loss_dq_cgp_relation 0.0291 loss_dq_cgp_smooth 0.0094 loss_dq_cgp_level_js 0.6019 loss_dq_cgp_adjacent_js 0.0094 loss_dq_cgp_point_correction_ratio 0.9765 loss_dq_cgp_point_effect_js 0.0350 loss_dq_cgp_level_query_js 0.1226 loss_dq_cgp_route_load_balance 0.0333 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7393 loss_dq_cgp_effective_basis_count 15.4800 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0636 loss_dq_cgp_basis_usage_01 0.0603 loss_dq_cgp_basis_usage_02 0.0636 loss_dq_cgp_basis_usage_03 0.0592 loss_dq_cgp_basis_usage_04 0.0600 loss_dq_cgp_basis_usage_05 0.0640 loss_dq_cgp_basis_usage_06 0.0636 loss_dq_cgp_basis_usage_07 0.0639 loss_dq_cgp_basis_usage_08 0.0596 loss_dq_cgp_basis_usage_09 0.0638 loss_dq_cgp_basis_usage_10 0.0598 loss_dq_cgp_basis_usage_11 0.0637 loss_dq_cgp_basis_usage_12 0.0636 loss_dq_cgp_basis_usage_13 0.0638 loss_dq_cgp_basis_usage_14 0.0636 loss_dq_cgp_basis_usage_15 0.0637 loss_dq_cgp_relation_route_js 0.0423 loss_dq_cgp_relation_attention_js 0.4501 loss_exist 0.2396 weighted_loss_overall 0.6076
+
+2026-10-01 19:57:07,127 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 62.88),
+                ('MR-full-R1@0.5', 51.75),
+                ('MR-full-R1@0.7', 32.34),
+                ('MR-full-mAP', 36.68),
+                ('MR-full-mAP@0.5', 62.03),
+                ('MR-full-mAP@0.75', 35.73),
+                ('MR-full-mIoU', 44.86),
+                ('GMR-TPR', 97.99),
+                ('GMR-TNR', 24.02),
+                ('GMR-BalancedAcc', 61.0)])
+2026-10-01 19:57:07,128 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.99, TNR: 24.02, BalancedAcc: 61.00
+2026-10-01 19:57:07,396 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 28]
+2026-10-01 19:59:22,845 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_19_59_22 [Epoch] 028 [Loss] loss_reg 0.2412 loss_cls 0.0238 loss_dq_cgp_bind 0.0629 loss_dq_cgp_route 0.0514 loss_dq_cgp_relation 0.0288 loss_dq_cgp_smooth 0.0095 loss_dq_cgp_level_js 0.6043 loss_dq_cgp_adjacent_js 0.0095 loss_dq_cgp_point_correction_ratio 0.9771 loss_dq_cgp_point_effect_js 0.0350 loss_dq_cgp_level_query_js 0.1200 loss_dq_cgp_route_load_balance 0.0322 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7404 loss_dq_cgp_effective_basis_count 15.4973 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0634 loss_dq_cgp_basis_usage_01 0.0616 loss_dq_cgp_basis_usage_02 0.0633 loss_dq_cgp_basis_usage_03 0.0604 loss_dq_cgp_basis_usage_04 0.0620 loss_dq_cgp_basis_usage_05 0.0625 loss_dq_cgp_basis_usage_06 0.0634 loss_dq_cgp_basis_usage_07 0.0629 loss_dq_cgp_basis_usage_08 0.0618 loss_dq_cgp_basis_usage_09 0.0627 loss_dq_cgp_basis_usage_10 0.0615 loss_dq_cgp_basis_usage_11 0.0635 loss_dq_cgp_basis_usage_12 0.0624 loss_dq_cgp_basis_usage_13 0.0626 loss_dq_cgp_basis_usage_14 0.0632 loss_dq_cgp_basis_usage_15 0.0626 loss_dq_cgp_relation_route_js 0.0424 loss_dq_cgp_relation_attention_js 0.4503 loss_exist 0.2346 weighted_loss_overall 0.5988
+
+2026-10-01 19:59:50,635 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.2),
+                ('MR-full-R1@0.5', 53.02),
+                ('MR-full-R1@0.7', 34.99),
+                ('MR-full-mAP', 38.01),
+                ('MR-full-mAP@0.5', 63.5),
+                ('MR-full-mAP@0.75', 37.71),
+                ('MR-full-mIoU', 45.73),
+                ('GMR-TPR', 98.2),
+                ('GMR-TNR', 24.61),
+                ('GMR-BalancedAcc', 61.4)])
+2026-10-01 19:59:50,636 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 98.20, TNR: 24.61, BalancedAcc: 61.40
+2026-10-01 19:59:50,911 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 29]
+2026-10-01 20:02:03,019 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_02_03 [Epoch] 029 [Loss] loss_reg 0.2388 loss_cls 0.0235 loss_dq_cgp_bind 0.0660 loss_dq_cgp_route 0.0525 loss_dq_cgp_relation 0.0291 loss_dq_cgp_smooth 0.0095 loss_dq_cgp_level_js 0.6020 loss_dq_cgp_adjacent_js 0.0095 loss_dq_cgp_point_correction_ratio 0.9767 loss_dq_cgp_point_effect_js 0.0350 loss_dq_cgp_level_query_js 0.1223 loss_dq_cgp_route_load_balance 0.0333 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7393 loss_dq_cgp_effective_basis_count 15.4795 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0632 loss_dq_cgp_basis_usage_01 0.0610 loss_dq_cgp_basis_usage_02 0.0632 loss_dq_cgp_basis_usage_03 0.0604 loss_dq_cgp_basis_usage_04 0.0606 loss_dq_cgp_basis_usage_05 0.0636 loss_dq_cgp_basis_usage_06 0.0634 loss_dq_cgp_basis_usage_07 0.0636 loss_dq_cgp_basis_usage_08 0.0613 loss_dq_cgp_basis_usage_09 0.0631 loss_dq_cgp_basis_usage_10 0.0609 loss_dq_cgp_basis_usage_11 0.0633 loss_dq_cgp_basis_usage_12 0.0632 loss_dq_cgp_basis_usage_13 0.0632 loss_dq_cgp_basis_usage_14 0.0630 loss_dq_cgp_basis_usage_15 0.0630 loss_dq_cgp_relation_route_js 0.0426 loss_dq_cgp_relation_attention_js 0.4521 loss_exist 0.2314 weighted_loss_overall 0.5923
+
+2026-10-01 20:02:30,750 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.2),
+                ('MR-full-R1@0.5', 52.7),
+                ('MR-full-R1@0.7', 33.3),
+                ('MR-full-mAP', 37.48),
+                ('MR-full-mAP@0.5', 63.35),
+                ('MR-full-mAP@0.75', 35.71),
+                ('MR-full-mIoU', 45.2),
+                ('GMR-TPR', 97.88),
+                ('GMR-TNR', 25.98),
+                ('GMR-BalancedAcc', 61.93)])
+2026-10-01 20:02:30,751 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.88, TNR: 25.98, BalancedAcc: 61.93
+2026-10-01 20:02:31,017 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 30]
+2026-10-01 20:04:45,355 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_04_45 [Epoch] 030 [Loss] loss_reg 0.2360 loss_cls 0.0235 loss_dq_cgp_bind 0.0617 loss_dq_cgp_route 0.0518 loss_dq_cgp_relation 0.0284 loss_dq_cgp_smooth 0.0096 loss_dq_cgp_level_js 0.6033 loss_dq_cgp_adjacent_js 0.0096 loss_dq_cgp_point_correction_ratio 0.9766 loss_dq_cgp_point_effect_js 0.0350 loss_dq_cgp_level_query_js 0.1212 loss_dq_cgp_route_load_balance 0.0326 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7400 loss_dq_cgp_effective_basis_count 15.4898 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0639 loss_dq_cgp_basis_usage_01 0.0603 loss_dq_cgp_basis_usage_02 0.0638 loss_dq_cgp_basis_usage_03 0.0604 loss_dq_cgp_basis_usage_04 0.0603 loss_dq_cgp_basis_usage_05 0.0629 loss_dq_cgp_basis_usage_06 0.0641 loss_dq_cgp_basis_usage_07 0.0634 loss_dq_cgp_basis_usage_08 0.0617 loss_dq_cgp_basis_usage_09 0.0630 loss_dq_cgp_basis_usage_10 0.0610 loss_dq_cgp_basis_usage_11 0.0636 loss_dq_cgp_basis_usage_12 0.0623 loss_dq_cgp_basis_usage_13 0.0633 loss_dq_cgp_basis_usage_14 0.0628 loss_dq_cgp_basis_usage_15 0.0634 loss_dq_cgp_relation_route_js 0.0426 loss_dq_cgp_relation_attention_js 0.4518 loss_exist 0.2268 weighted_loss_overall 0.5843
+
+2026-10-01 20:05:13,094 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 62.99),
+                ('MR-full-R1@0.5', 52.92),
+                ('MR-full-R1@0.7', 35.1),
+                ('MR-full-mAP', 37.67),
+                ('MR-full-mAP@0.5', 63.62),
+                ('MR-full-mAP@0.75', 36.7),
+                ('MR-full-mIoU', 45.5),
+                ('GMR-TPR', 96.82),
+                ('GMR-TNR', 26.97),
+                ('GMR-BalancedAcc', 61.89)])
+2026-10-01 20:05:13,095 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.82, TNR: 26.97, BalancedAcc: 61.89
+2026-10-01 20:05:14,223 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 31]
+2026-10-01 20:07:28,819 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_07_28 [Epoch] 031 [Loss] loss_reg 0.2342 loss_cls 0.0232 loss_dq_cgp_bind 0.0614 loss_dq_cgp_route 0.0523 loss_dq_cgp_relation 0.0289 loss_dq_cgp_smooth 0.0097 loss_dq_cgp_level_js 0.6019 loss_dq_cgp_adjacent_js 0.0097 loss_dq_cgp_point_correction_ratio 0.9757 loss_dq_cgp_point_effect_js 0.0349 loss_dq_cgp_level_query_js 0.1227 loss_dq_cgp_route_load_balance 0.0331 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7395 loss_dq_cgp_effective_basis_count 15.4832 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0635 loss_dq_cgp_basis_usage_01 0.0615 loss_dq_cgp_basis_usage_02 0.0634 loss_dq_cgp_basis_usage_03 0.0600 loss_dq_cgp_basis_usage_04 0.0611 loss_dq_cgp_basis_usage_05 0.0631 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0634 loss_dq_cgp_basis_usage_08 0.0609 loss_dq_cgp_basis_usage_09 0.0634 loss_dq_cgp_basis_usage_10 0.0610 loss_dq_cgp_basis_usage_11 0.0635 loss_dq_cgp_basis_usage_12 0.0631 loss_dq_cgp_basis_usage_13 0.0632 loss_dq_cgp_basis_usage_14 0.0626 loss_dq_cgp_basis_usage_15 0.0630 loss_dq_cgp_relation_route_js 0.0425 loss_dq_cgp_relation_attention_js 0.4521 loss_exist 0.2240 weighted_loss_overall 0.5785
+
+2026-10-01 20:07:56,265 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.63),
+                ('MR-full-R1@0.5', 54.08),
+                ('MR-full-R1@0.7', 32.98),
+                ('MR-full-mAP', 37.4),
+                ('MR-full-mAP@0.5', 64.0),
+                ('MR-full-mAP@0.75', 35.9),
+                ('MR-full-mIoU', 45.56),
+                ('GMR-TPR', 95.76),
+                ('GMR-TNR', 31.1),
+                ('GMR-BalancedAcc', 63.43)])
+2026-10-01 20:07:56,265 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.76, TNR: 31.10, BalancedAcc: 63.43
+2026-10-01 20:07:56,533 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 32]
+2026-10-01 20:10:10,820 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_10_10 [Epoch] 032 [Loss] loss_reg 0.2320 loss_cls 0.0231 loss_dq_cgp_bind 0.0641 loss_dq_cgp_route 0.0516 loss_dq_cgp_relation 0.0282 loss_dq_cgp_smooth 0.0097 loss_dq_cgp_level_js 0.6013 loss_dq_cgp_adjacent_js 0.0097 loss_dq_cgp_point_correction_ratio 0.9754 loss_dq_cgp_point_effect_js 0.0349 loss_dq_cgp_level_query_js 0.1239 loss_dq_cgp_route_load_balance 0.0324 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7402 loss_dq_cgp_effective_basis_count 15.4931 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0630 loss_dq_cgp_basis_usage_01 0.0603 loss_dq_cgp_basis_usage_02 0.0631 loss_dq_cgp_basis_usage_03 0.0610 loss_dq_cgp_basis_usage_04 0.0601 loss_dq_cgp_basis_usage_05 0.0633 loss_dq_cgp_basis_usage_06 0.0631 loss_dq_cgp_basis_usage_07 0.0634 loss_dq_cgp_basis_usage_08 0.0617 loss_dq_cgp_basis_usage_09 0.0636 loss_dq_cgp_basis_usage_10 0.0605 loss_dq_cgp_basis_usage_11 0.0630 loss_dq_cgp_basis_usage_12 0.0636 loss_dq_cgp_basis_usage_13 0.0628 loss_dq_cgp_basis_usage_14 0.0638 loss_dq_cgp_basis_usage_15 0.0636 loss_dq_cgp_relation_route_js 0.0426 loss_dq_cgp_relation_attention_js 0.4522 loss_exist 0.2244 weighted_loss_overall 0.5760
+
+2026-10-01 20:10:38,675 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.11),
+                ('MR-full-R1@0.5', 53.45),
+                ('MR-full-R1@0.7', 33.51),
+                ('MR-full-mAP', 37.75),
+                ('MR-full-mAP@0.5', 64.01),
+                ('MR-full-mAP@0.75', 36.47),
+                ('MR-full-mIoU', 46.12),
+                ('GMR-TPR', 97.56),
+                ('GMR-TNR', 28.74),
+                ('GMR-BalancedAcc', 63.15)])
+2026-10-01 20:10:38,676 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.56, TNR: 28.74, BalancedAcc: 63.15
+2026-10-01 20:10:38,968 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 33]
+2026-10-01 20:12:54,346 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_12_54 [Epoch] 033 [Loss] loss_reg 0.2315 loss_cls 0.0230 loss_dq_cgp_bind 0.0627 loss_dq_cgp_route 0.0527 loss_dq_cgp_relation 0.0279 loss_dq_cgp_smooth 0.0097 loss_dq_cgp_level_js 0.5992 loss_dq_cgp_adjacent_js 0.0097 loss_dq_cgp_point_correction_ratio 0.9742 loss_dq_cgp_point_effect_js 0.0349 loss_dq_cgp_level_query_js 0.1260 loss_dq_cgp_route_load_balance 0.0335 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7391 loss_dq_cgp_effective_basis_count 15.4770 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0628 loss_dq_cgp_basis_usage_01 0.0611 loss_dq_cgp_basis_usage_02 0.0628 loss_dq_cgp_basis_usage_03 0.0603 loss_dq_cgp_basis_usage_04 0.0607 loss_dq_cgp_basis_usage_05 0.0645 loss_dq_cgp_basis_usage_06 0.0626 loss_dq_cgp_basis_usage_07 0.0629 loss_dq_cgp_basis_usage_08 0.0600 loss_dq_cgp_basis_usage_09 0.0634 loss_dq_cgp_basis_usage_10 0.0611 loss_dq_cgp_basis_usage_11 0.0627 loss_dq_cgp_basis_usage_12 0.0643 loss_dq_cgp_basis_usage_13 0.0635 loss_dq_cgp_basis_usage_14 0.0638 loss_dq_cgp_basis_usage_15 0.0635 loss_dq_cgp_relation_route_js 0.0424 loss_dq_cgp_relation_attention_js 0.4501 loss_exist 0.2170 weighted_loss_overall 0.5679
+
+2026-10-01 20:13:22,392 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.48),
+                ('MR-full-R1@0.5', 54.83),
+                ('MR-full-R1@0.7', 34.04),
+                ('MR-full-mAP', 38.15),
+                ('MR-full-mAP@0.5', 65.02),
+                ('MR-full-mAP@0.75', 36.7),
+                ('MR-full-mIoU', 46.57),
+                ('GMR-TPR', 97.45),
+                ('GMR-TNR', 27.56),
+                ('GMR-BalancedAcc', 62.51)])
+2026-10-01 20:13:22,393 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.45, TNR: 27.56, BalancedAcc: 62.51
+2026-10-01 20:13:22,668 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 20:13:22,931 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 34]
+2026-10-01 20:15:40,140 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_15_40 [Epoch] 034 [Loss] loss_reg 0.2293 loss_cls 0.0229 loss_dq_cgp_bind 0.0607 loss_dq_cgp_route 0.0526 loss_dq_cgp_relation 0.0277 loss_dq_cgp_smooth 0.0097 loss_dq_cgp_level_js 0.6017 loss_dq_cgp_adjacent_js 0.0097 loss_dq_cgp_point_correction_ratio 0.9750 loss_dq_cgp_point_effect_js 0.0349 loss_dq_cgp_level_query_js 0.1232 loss_dq_cgp_route_load_balance 0.0334 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7392 loss_dq_cgp_effective_basis_count 15.4788 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0626 loss_dq_cgp_basis_usage_01 0.0611 loss_dq_cgp_basis_usage_02 0.0628 loss_dq_cgp_basis_usage_03 0.0601 loss_dq_cgp_basis_usage_04 0.0604 loss_dq_cgp_basis_usage_05 0.0633 loss_dq_cgp_basis_usage_06 0.0625 loss_dq_cgp_basis_usage_07 0.0641 loss_dq_cgp_basis_usage_08 0.0611 loss_dq_cgp_basis_usage_09 0.0639 loss_dq_cgp_basis_usage_10 0.0605 loss_dq_cgp_basis_usage_11 0.0626 loss_dq_cgp_basis_usage_12 0.0639 loss_dq_cgp_basis_usage_13 0.0641 loss_dq_cgp_basis_usage_14 0.0634 loss_dq_cgp_basis_usage_15 0.0637 loss_dq_cgp_relation_route_js 0.0424 loss_dq_cgp_relation_attention_js 0.4504 loss_exist 0.2168 weighted_loss_overall 0.5647
+
+2026-10-01 20:16:07,820 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.05),
+                ('MR-full-R1@0.5', 53.76),
+                ('MR-full-R1@0.7', 33.51),
+                ('MR-full-mAP', 37.95),
+                ('MR-full-mAP@0.5', 64.35),
+                ('MR-full-mAP@0.75', 36.69),
+                ('MR-full-mIoU', 45.99),
+                ('GMR-TPR', 96.92),
+                ('GMR-TNR', 28.94),
+                ('GMR-BalancedAcc', 62.93)])
+2026-10-01 20:16:07,820 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.92, TNR: 28.94, BalancedAcc: 62.93
+2026-10-01 20:16:08,082 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 35]
+2026-10-01 20:18:23,095 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_18_23 [Epoch] 035 [Loss] loss_reg 0.2258 loss_cls 0.0226 loss_dq_cgp_bind 0.0618 loss_dq_cgp_route 0.0528 loss_dq_cgp_relation 0.0272 loss_dq_cgp_smooth 0.0097 loss_dq_cgp_level_js 0.6011 loss_dq_cgp_adjacent_js 0.0097 loss_dq_cgp_point_correction_ratio 0.9750 loss_dq_cgp_point_effect_js 0.0349 loss_dq_cgp_level_query_js 0.1245 loss_dq_cgp_route_load_balance 0.0336 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7390 loss_dq_cgp_effective_basis_count 15.4757 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0628 loss_dq_cgp_basis_usage_01 0.0608 loss_dq_cgp_basis_usage_02 0.0629 loss_dq_cgp_basis_usage_03 0.0612 loss_dq_cgp_basis_usage_04 0.0617 loss_dq_cgp_basis_usage_05 0.0635 loss_dq_cgp_basis_usage_06 0.0627 loss_dq_cgp_basis_usage_07 0.0629 loss_dq_cgp_basis_usage_08 0.0619 loss_dq_cgp_basis_usage_09 0.0622 loss_dq_cgp_basis_usage_10 0.0614 loss_dq_cgp_basis_usage_11 0.0629 loss_dq_cgp_basis_usage_12 0.0637 loss_dq_cgp_basis_usage_13 0.0631 loss_dq_cgp_basis_usage_14 0.0637 loss_dq_cgp_basis_usage_15 0.0628 loss_dq_cgp_relation_route_js 0.0423 loss_dq_cgp_relation_attention_js 0.4481 loss_exist 0.2138 weighted_loss_overall 0.5566
+
+2026-10-01 20:18:50,724 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.31),
+                ('MR-full-R1@0.5', 53.34),
+                ('MR-full-R1@0.7', 32.34),
+                ('MR-full-mAP', 37.65),
+                ('MR-full-mAP@0.5', 63.97),
+                ('MR-full-mAP@0.75', 36.46),
+                ('MR-full-mIoU', 45.37),
+                ('GMR-TPR', 96.5),
+                ('GMR-TNR', 30.31),
+                ('GMR-BalancedAcc', 63.41)])
+2026-10-01 20:18:50,724 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.50, TNR: 30.31, BalancedAcc: 63.41
+2026-10-01 20:18:50,981 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 36]
+2026-10-01 20:21:05,344 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_21_05 [Epoch] 036 [Loss] loss_reg 0.2230 loss_cls 0.0224 loss_dq_cgp_bind 0.0571 loss_dq_cgp_route 0.0537 loss_dq_cgp_relation 0.0274 loss_dq_cgp_smooth 0.0097 loss_dq_cgp_level_js 0.5993 loss_dq_cgp_adjacent_js 0.0097 loss_dq_cgp_point_correction_ratio 0.9747 loss_dq_cgp_point_effect_js 0.0349 loss_dq_cgp_level_query_js 0.1260 loss_dq_cgp_route_load_balance 0.0345 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7381 loss_dq_cgp_effective_basis_count 15.4622 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0635 loss_dq_cgp_basis_usage_01 0.0615 loss_dq_cgp_basis_usage_02 0.0635 loss_dq_cgp_basis_usage_03 0.0600 loss_dq_cgp_basis_usage_04 0.0613 loss_dq_cgp_basis_usage_05 0.0627 loss_dq_cgp_basis_usage_06 0.0638 loss_dq_cgp_basis_usage_07 0.0627 loss_dq_cgp_basis_usage_08 0.0630 loss_dq_cgp_basis_usage_09 0.0628 loss_dq_cgp_basis_usage_10 0.0620 loss_dq_cgp_basis_usage_11 0.0636 loss_dq_cgp_basis_usage_12 0.0622 loss_dq_cgp_basis_usage_13 0.0622 loss_dq_cgp_basis_usage_14 0.0626 loss_dq_cgp_basis_usage_15 0.0626 loss_dq_cgp_relation_route_js 0.0423 loss_dq_cgp_relation_attention_js 0.4483 loss_exist 0.2079 weighted_loss_overall 0.5467
+
+2026-10-01 20:21:33,126 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.37),
+                ('MR-full-R1@0.5', 54.19),
+                ('MR-full-R1@0.7', 32.77),
+                ('MR-full-mAP', 37.51),
+                ('MR-full-mAP@0.5', 63.98),
+                ('MR-full-mAP@0.75', 35.67),
+                ('MR-full-mIoU', 46.11),
+                ('GMR-TPR', 97.56),
+                ('GMR-TNR', 26.77),
+                ('GMR-BalancedAcc', 62.17)])
+2026-10-01 20:21:33,127 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.56, TNR: 26.77, BalancedAcc: 62.17
+2026-10-01 20:21:33,424 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 37]
+2026-10-01 20:23:48,181 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_23_48 [Epoch] 037 [Loss] loss_reg 0.2224 loss_cls 0.0222 loss_dq_cgp_bind 0.0573 loss_dq_cgp_route 0.0525 loss_dq_cgp_relation 0.0273 loss_dq_cgp_smooth 0.0098 loss_dq_cgp_level_js 0.5987 loss_dq_cgp_adjacent_js 0.0098 loss_dq_cgp_point_correction_ratio 0.9741 loss_dq_cgp_point_effect_js 0.0348 loss_dq_cgp_level_query_js 0.1263 loss_dq_cgp_route_load_balance 0.0333 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7393 loss_dq_cgp_effective_basis_count 15.4794 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0641 loss_dq_cgp_basis_usage_01 0.0616 loss_dq_cgp_basis_usage_02 0.0641 loss_dq_cgp_basis_usage_03 0.0587 loss_dq_cgp_basis_usage_04 0.0600 loss_dq_cgp_basis_usage_05 0.0627 loss_dq_cgp_basis_usage_06 0.0640 loss_dq_cgp_basis_usage_07 0.0632 loss_dq_cgp_basis_usage_08 0.0604 loss_dq_cgp_basis_usage_09 0.0633 loss_dq_cgp_basis_usage_10 0.0611 loss_dq_cgp_basis_usage_11 0.0641 loss_dq_cgp_basis_usage_12 0.0634 loss_dq_cgp_basis_usage_13 0.0633 loss_dq_cgp_basis_usage_14 0.0627 loss_dq_cgp_basis_usage_15 0.0633 loss_dq_cgp_relation_route_js 0.0423 loss_dq_cgp_relation_attention_js 0.4485 loss_exist 0.2090 weighted_loss_overall 0.5462
+
+2026-10-01 20:24:15,781 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.63),
+                ('MR-full-R1@0.5', 53.34),
+                ('MR-full-R1@0.7', 32.56),
+                ('MR-full-mAP', 37.34),
+                ('MR-full-mAP@0.5', 63.76),
+                ('MR-full-mAP@0.75', 35.67),
+                ('MR-full-mIoU', 45.42),
+                ('GMR-TPR', 95.55),
+                ('GMR-TNR', 31.69),
+                ('GMR-BalancedAcc', 63.62)])
+2026-10-01 20:24:15,782 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.55, TNR: 31.69, BalancedAcc: 63.62
+2026-10-01 20:24:16,108 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 38]
+2026-10-01 20:26:30,636 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_26_30 [Epoch] 038 [Loss] loss_reg 0.2214 loss_cls 0.0221 loss_dq_cgp_bind 0.0590 loss_dq_cgp_route 0.0539 loss_dq_cgp_relation 0.0275 loss_dq_cgp_smooth 0.0097 loss_dq_cgp_level_js 0.5969 loss_dq_cgp_adjacent_js 0.0097 loss_dq_cgp_point_correction_ratio 0.9734 loss_dq_cgp_point_effect_js 0.0348 loss_dq_cgp_level_query_js 0.1271 loss_dq_cgp_route_load_balance 0.0347 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7379 loss_dq_cgp_effective_basis_count 15.4587 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0634 loss_dq_cgp_basis_usage_01 0.0617 loss_dq_cgp_basis_usage_02 0.0636 loss_dq_cgp_basis_usage_03 0.0629 loss_dq_cgp_basis_usage_04 0.0610 loss_dq_cgp_basis_usage_05 0.0636 loss_dq_cgp_basis_usage_06 0.0636 loss_dq_cgp_basis_usage_07 0.0618 loss_dq_cgp_basis_usage_08 0.0612 loss_dq_cgp_basis_usage_09 0.0636 loss_dq_cgp_basis_usage_10 0.0604 loss_dq_cgp_basis_usage_11 0.0635 loss_dq_cgp_basis_usage_12 0.0629 loss_dq_cgp_basis_usage_13 0.0622 loss_dq_cgp_basis_usage_14 0.0622 loss_dq_cgp_basis_usage_15 0.0623 loss_dq_cgp_relation_route_js 0.0423 loss_dq_cgp_relation_attention_js 0.4488 loss_exist 0.2032 weighted_loss_overall 0.5390
+
+2026-10-01 20:26:58,408 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.84),
+                ('MR-full-R1@0.5', 52.7),
+                ('MR-full-R1@0.7', 32.98),
+                ('MR-full-mAP', 37.92),
+                ('MR-full-mAP@0.5', 63.91),
+                ('MR-full-mAP@0.75', 37.23),
+                ('MR-full-mIoU', 45.85),
+                ('GMR-TPR', 97.99),
+                ('GMR-TNR', 26.38),
+                ('GMR-BalancedAcc', 62.18)])
+2026-10-01 20:26:58,409 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 97.99, TNR: 26.38, BalancedAcc: 62.18
+2026-10-01 20:26:58,666 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 39]
+2026-10-01 20:29:15,511 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_29_15 [Epoch] 039 [Loss] loss_reg 0.2191 loss_cls 0.0218 loss_dq_cgp_bind 0.0572 loss_dq_cgp_route 0.0537 loss_dq_cgp_relation 0.0269 loss_dq_cgp_smooth 0.0097 loss_dq_cgp_level_js 0.5971 loss_dq_cgp_adjacent_js 0.0097 loss_dq_cgp_point_correction_ratio 0.9726 loss_dq_cgp_point_effect_js 0.0348 loss_dq_cgp_level_query_js 0.1274 loss_dq_cgp_route_load_balance 0.0345 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7381 loss_dq_cgp_effective_basis_count 15.4608 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0634 loss_dq_cgp_basis_usage_01 0.0602 loss_dq_cgp_basis_usage_02 0.0634 loss_dq_cgp_basis_usage_03 0.0608 loss_dq_cgp_basis_usage_04 0.0615 loss_dq_cgp_basis_usage_05 0.0633 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0638 loss_dq_cgp_basis_usage_08 0.0606 loss_dq_cgp_basis_usage_09 0.0636 loss_dq_cgp_basis_usage_10 0.0582 loss_dq_cgp_basis_usage_11 0.0633 loss_dq_cgp_basis_usage_12 0.0632 loss_dq_cgp_basis_usage_13 0.0642 loss_dq_cgp_basis_usage_14 0.0633 loss_dq_cgp_basis_usage_15 0.0640 loss_dq_cgp_relation_route_js 0.0423 loss_dq_cgp_relation_attention_js 0.4482 loss_exist 0.1973 weighted_loss_overall 0.5294
+
+2026-10-01 20:29:43,308 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.48),
+                ('MR-full-R1@0.5', 54.72),
+                ('MR-full-R1@0.7', 32.56),
+                ('MR-full-mAP', 38.23),
+                ('MR-full-mAP@0.5', 65.5),
+                ('MR-full-mAP@0.75', 36.93),
+                ('MR-full-mIoU', 46.6),
+                ('GMR-TPR', 96.61),
+                ('GMR-TNR', 30.31),
+                ('GMR-BalancedAcc', 63.46)])
+2026-10-01 20:29:43,308 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.61, TNR: 30.31, BalancedAcc: 63.46
+2026-10-01 20:29:43,578 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 40]
+2026-10-01 20:31:57,670 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_31_57 [Epoch] 040 [Loss] loss_reg 0.2171 loss_cls 0.0215 loss_dq_cgp_bind 0.0557 loss_dq_cgp_route 0.0539 loss_dq_cgp_relation 0.0273 loss_dq_cgp_smooth 0.0098 loss_dq_cgp_level_js 0.6001 loss_dq_cgp_adjacent_js 0.0098 loss_dq_cgp_point_correction_ratio 0.9728 loss_dq_cgp_point_effect_js 0.0348 loss_dq_cgp_level_query_js 0.1230 loss_dq_cgp_route_load_balance 0.0347 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3863 loss_dq_cgp_usage_entropy 2.7379 loss_dq_cgp_effective_basis_count 15.4591 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0631 loss_dq_cgp_basis_usage_01 0.0605 loss_dq_cgp_basis_usage_02 0.0632 loss_dq_cgp_basis_usage_03 0.0575 loss_dq_cgp_basis_usage_04 0.0611 loss_dq_cgp_basis_usage_05 0.0648 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0630 loss_dq_cgp_basis_usage_08 0.0613 loss_dq_cgp_basis_usage_09 0.0639 loss_dq_cgp_basis_usage_10 0.0605 loss_dq_cgp_basis_usage_11 0.0632 loss_dq_cgp_basis_usage_12 0.0640 loss_dq_cgp_basis_usage_13 0.0636 loss_dq_cgp_basis_usage_14 0.0640 loss_dq_cgp_basis_usage_15 0.0629 loss_dq_cgp_relation_route_js 0.0423 loss_dq_cgp_relation_attention_js 0.4488 loss_exist 0.1955 weighted_loss_overall 0.5242
+
+2026-10-01 20:32:25,119 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.43),
+                ('MR-full-R1@0.5', 54.72),
+                ('MR-full-R1@0.7', 31.92),
+                ('MR-full-mAP', 37.87),
+                ('MR-full-mAP@0.5', 64.94),
+                ('MR-full-mAP@0.75', 36.52),
+                ('MR-full-mIoU', 46.72),
+                ('GMR-TPR', 96.18),
+                ('GMR-TNR', 30.51),
+                ('GMR-BalancedAcc', 63.35)])
+2026-10-01 20:32:25,119 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.18, TNR: 30.51, BalancedAcc: 63.35
+2026-10-01 20:32:25,373 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 41]
+2026-10-01 20:34:41,696 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_34_41 [Epoch] 041 [Loss] loss_reg 0.2163 loss_cls 0.0216 loss_dq_cgp_bind 0.0545 loss_dq_cgp_route 0.0551 loss_dq_cgp_relation 0.0274 loss_dq_cgp_smooth 0.0098 loss_dq_cgp_level_js 0.5968 loss_dq_cgp_adjacent_js 0.0098 loss_dq_cgp_point_correction_ratio 0.9721 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1259 loss_dq_cgp_route_load_balance 0.0359 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7367 loss_dq_cgp_effective_basis_count 15.4393 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0635 loss_dq_cgp_basis_usage_01 0.0598 loss_dq_cgp_basis_usage_02 0.0634 loss_dq_cgp_basis_usage_03 0.0575 loss_dq_cgp_basis_usage_04 0.0590 loss_dq_cgp_basis_usage_05 0.0643 loss_dq_cgp_basis_usage_06 0.0634 loss_dq_cgp_basis_usage_07 0.0639 loss_dq_cgp_basis_usage_08 0.0605 loss_dq_cgp_basis_usage_09 0.0644 loss_dq_cgp_basis_usage_10 0.0599 loss_dq_cgp_basis_usage_11 0.0637 loss_dq_cgp_basis_usage_12 0.0638 loss_dq_cgp_basis_usage_13 0.0646 loss_dq_cgp_basis_usage_14 0.0638 loss_dq_cgp_basis_usage_15 0.0646 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4482 loss_exist 0.1942 weighted_loss_overall 0.5223
+
+2026-10-01 20:35:09,560 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.63),
+                ('MR-full-R1@0.5', 52.81),
+                ('MR-full-R1@0.7', 32.45),
+                ('MR-full-mAP', 37.06),
+                ('MR-full-mAP@0.5', 63.42),
+                ('MR-full-mAP@0.75', 35.55),
+                ('MR-full-mIoU', 45.29),
+                ('GMR-TPR', 96.71),
+                ('GMR-TNR', 30.12),
+                ('GMR-BalancedAcc', 63.42)])
+2026-10-01 20:35:09,560 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.71, TNR: 30.12, BalancedAcc: 63.42
+2026-10-01 20:35:09,994 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 42]
+2026-10-01 20:37:26,481 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_37_26 [Epoch] 042 [Loss] loss_reg 0.2150 loss_cls 0.0213 loss_dq_cgp_bind 0.0573 loss_dq_cgp_route 0.0546 loss_dq_cgp_relation 0.0272 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5970 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9725 loss_dq_cgp_point_effect_js 0.0348 loss_dq_cgp_level_query_js 0.1272 loss_dq_cgp_route_load_balance 0.0354 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7372 loss_dq_cgp_effective_basis_count 15.4472 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0636 loss_dq_cgp_basis_usage_01 0.0602 loss_dq_cgp_basis_usage_02 0.0641 loss_dq_cgp_basis_usage_03 0.0596 loss_dq_cgp_basis_usage_04 0.0620 loss_dq_cgp_basis_usage_05 0.0628 loss_dq_cgp_basis_usage_06 0.0638 loss_dq_cgp_basis_usage_07 0.0630 loss_dq_cgp_basis_usage_08 0.0613 loss_dq_cgp_basis_usage_09 0.0641 loss_dq_cgp_basis_usage_10 0.0594 loss_dq_cgp_basis_usage_11 0.0640 loss_dq_cgp_basis_usage_12 0.0624 loss_dq_cgp_basis_usage_13 0.0633 loss_dq_cgp_basis_usage_14 0.0633 loss_dq_cgp_basis_usage_15 0.0632 loss_dq_cgp_relation_route_js 0.0425 loss_dq_cgp_relation_attention_js 0.4506 loss_exist 0.1910 weighted_loss_overall 0.5166
+
+2026-10-01 20:37:54,546 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.84),
+                ('MR-full-R1@0.5', 52.28),
+                ('MR-full-R1@0.7', 31.28),
+                ('MR-full-mAP', 36.29),
+                ('MR-full-mAP@0.5', 62.47),
+                ('MR-full-mAP@0.75', 34.87),
+                ('MR-full-mIoU', 45.23),
+                ('GMR-TPR', 96.92),
+                ('GMR-TNR', 27.17),
+                ('GMR-BalancedAcc', 62.05)])
+2026-10-01 20:37:54,546 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.92, TNR: 27.17, BalancedAcc: 62.05
+2026-10-01 20:37:54,811 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 43]
+2026-10-01 20:40:13,387 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_40_13 [Epoch] 043 [Loss] loss_reg 0.2093 loss_cls 0.0206 loss_dq_cgp_bind 0.0537 loss_dq_cgp_route 0.0542 loss_dq_cgp_relation 0.0275 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5943 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9721 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1293 loss_dq_cgp_route_load_balance 0.0350 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7376 loss_dq_cgp_effective_basis_count 15.4529 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0631 loss_dq_cgp_basis_usage_01 0.0617 loss_dq_cgp_basis_usage_02 0.0634 loss_dq_cgp_basis_usage_03 0.0615 loss_dq_cgp_basis_usage_04 0.0607 loss_dq_cgp_basis_usage_05 0.0631 loss_dq_cgp_basis_usage_06 0.0636 loss_dq_cgp_basis_usage_07 0.0626 loss_dq_cgp_basis_usage_08 0.0604 loss_dq_cgp_basis_usage_09 0.0635 loss_dq_cgp_basis_usage_10 0.0605 loss_dq_cgp_basis_usage_11 0.0634 loss_dq_cgp_basis_usage_12 0.0640 loss_dq_cgp_basis_usage_13 0.0627 loss_dq_cgp_basis_usage_14 0.0634 loss_dq_cgp_basis_usage_15 0.0624 loss_dq_cgp_relation_route_js 0.0425 loss_dq_cgp_relation_attention_js 0.4513 loss_exist 0.1775 weighted_loss_overall 0.4935
+
+2026-10-01 20:40:41,081 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.01),
+                ('MR-full-R1@0.5', 54.61),
+                ('MR-full-R1@0.7', 31.92),
+                ('MR-full-mAP', 37.39),
+                ('MR-full-mAP@0.5', 64.75),
+                ('MR-full-mAP@0.75', 35.32),
+                ('MR-full-mIoU', 46.31),
+                ('GMR-TPR', 96.92),
+                ('GMR-TNR', 28.15),
+                ('GMR-BalancedAcc', 62.54)])
+2026-10-01 20:40:41,082 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.92, TNR: 28.15, BalancedAcc: 62.54
+2026-10-01 20:40:41,324 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 44]
+2026-10-01 20:42:56,184 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_42_56 [Epoch] 044 [Loss] loss_reg 0.2071 loss_cls 0.0204 loss_dq_cgp_bind 0.0535 loss_dq_cgp_route 0.0556 loss_dq_cgp_relation 0.0269 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5947 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9719 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1283 loss_dq_cgp_route_load_balance 0.0364 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7362 loss_dq_cgp_effective_basis_count 15.4322 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0636 loss_dq_cgp_basis_usage_01 0.0590 loss_dq_cgp_basis_usage_02 0.0640 loss_dq_cgp_basis_usage_03 0.0581 loss_dq_cgp_basis_usage_04 0.0597 loss_dq_cgp_basis_usage_05 0.0635 loss_dq_cgp_basis_usage_06 0.0637 loss_dq_cgp_basis_usage_07 0.0645 loss_dq_cgp_basis_usage_08 0.0599 loss_dq_cgp_basis_usage_09 0.0639 loss_dq_cgp_basis_usage_10 0.0600 loss_dq_cgp_basis_usage_11 0.0637 loss_dq_cgp_basis_usage_12 0.0637 loss_dq_cgp_basis_usage_13 0.0646 loss_dq_cgp_basis_usage_14 0.0640 loss_dq_cgp_basis_usage_15 0.0642 loss_dq_cgp_relation_route_js 0.0425 loss_dq_cgp_relation_attention_js 0.4505 loss_exist 0.1785 weighted_loss_overall 0.4915
+
+2026-10-01 20:43:24,241 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.94),
+                ('MR-full-R1@0.5', 53.34),
+                ('MR-full-R1@0.7', 33.09),
+                ('MR-full-mAP', 37.29),
+                ('MR-full-mAP@0.5', 63.82),
+                ('MR-full-mAP@0.75', 35.94),
+                ('MR-full-mIoU', 46.08),
+                ('GMR-TPR', 95.86),
+                ('GMR-TNR', 29.53),
+                ('GMR-BalancedAcc', 62.7)])
+2026-10-01 20:43:24,242 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.86, TNR: 29.53, BalancedAcc: 62.70
+2026-10-01 20:43:24,515 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 45]
+2026-10-01 20:45:37,751 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_45_37 [Epoch] 045 [Loss] loss_reg 0.2059 loss_cls 0.0203 loss_dq_cgp_bind 0.0526 loss_dq_cgp_route 0.0542 loss_dq_cgp_relation 0.0270 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5942 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9718 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1284 loss_dq_cgp_route_load_balance 0.0350 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7375 loss_dq_cgp_effective_basis_count 15.4527 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0624 loss_dq_cgp_basis_usage_01 0.0611 loss_dq_cgp_basis_usage_02 0.0623 loss_dq_cgp_basis_usage_03 0.0588 loss_dq_cgp_basis_usage_04 0.0606 loss_dq_cgp_basis_usage_05 0.0641 loss_dq_cgp_basis_usage_06 0.0623 loss_dq_cgp_basis_usage_07 0.0643 loss_dq_cgp_basis_usage_08 0.0609 loss_dq_cgp_basis_usage_09 0.0638 loss_dq_cgp_basis_usage_10 0.0609 loss_dq_cgp_basis_usage_11 0.0624 loss_dq_cgp_basis_usage_12 0.0637 loss_dq_cgp_basis_usage_13 0.0639 loss_dq_cgp_basis_usage_14 0.0640 loss_dq_cgp_basis_usage_15 0.0644 loss_dq_cgp_relation_route_js 0.0424 loss_dq_cgp_relation_attention_js 0.4496 loss_exist 0.1716 weighted_loss_overall 0.4828
+
+2026-10-01 20:46:05,369 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.26),
+                ('MR-full-R1@0.5', 54.19),
+                ('MR-full-R1@0.7', 33.3),
+                ('MR-full-mAP', 37.55),
+                ('MR-full-mAP@0.5', 64.02),
+                ('MR-full-mAP@0.75', 36.94),
+                ('MR-full-mIoU', 46.28),
+                ('GMR-TPR', 94.8),
+                ('GMR-TNR', 32.68),
+                ('GMR-BalancedAcc', 63.74)])
+2026-10-01 20:46:05,370 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.80, TNR: 32.68, BalancedAcc: 63.74
+2026-10-01 20:46:05,631 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 46]
+2026-10-01 20:48:19,109 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_48_19 [Epoch] 046 [Loss] loss_reg 0.2052 loss_cls 0.0203 loss_dq_cgp_bind 0.0513 loss_dq_cgp_route 0.0526 loss_dq_cgp_relation 0.0261 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5969 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9724 loss_dq_cgp_point_effect_js 0.0348 loss_dq_cgp_level_query_js 0.1261 loss_dq_cgp_route_load_balance 0.0334 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7392 loss_dq_cgp_effective_basis_count 15.4775 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0623 loss_dq_cgp_basis_usage_01 0.0609 loss_dq_cgp_basis_usage_02 0.0623 loss_dq_cgp_basis_usage_03 0.0598 loss_dq_cgp_basis_usage_04 0.0603 loss_dq_cgp_basis_usage_05 0.0648 loss_dq_cgp_basis_usage_06 0.0624 loss_dq_cgp_basis_usage_07 0.0625 loss_dq_cgp_basis_usage_08 0.0620 loss_dq_cgp_basis_usage_09 0.0639 loss_dq_cgp_basis_usage_10 0.0603 loss_dq_cgp_basis_usage_11 0.0624 loss_dq_cgp_basis_usage_12 0.0643 loss_dq_cgp_basis_usage_13 0.0632 loss_dq_cgp_basis_usage_14 0.0652 loss_dq_cgp_basis_usage_15 0.0632 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4467 loss_exist 0.1726 weighted_loss_overall 0.4829
+
+2026-10-01 20:48:46,680 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.48),
+                ('MR-full-R1@0.5', 55.57),
+                ('MR-full-R1@0.7', 33.93),
+                ('MR-full-mAP', 37.99),
+                ('MR-full-mAP@0.5', 65.25),
+                ('MR-full-mAP@0.75', 37.16),
+                ('MR-full-mIoU', 46.76),
+                ('GMR-TPR', 95.44),
+                ('GMR-TNR', 31.89),
+                ('GMR-BalancedAcc', 63.66)])
+2026-10-01 20:48:46,681 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.44, TNR: 31.89, BalancedAcc: 63.66
+2026-10-01 20:48:46,965 - flashvtg_dq_cgp_v3_gmr.train - INFO - The checkpoint file has been updated.
+2026-10-01 20:48:47,262 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 47]
+2026-10-01 20:51:12,059 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_51_12 [Epoch] 047 [Loss] loss_reg 0.2025 loss_cls 0.0201 loss_dq_cgp_bind 0.0526 loss_dq_cgp_route 0.0548 loss_dq_cgp_relation 0.0262 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5951 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9717 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1269 loss_dq_cgp_route_load_balance 0.0356 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7369 loss_dq_cgp_effective_basis_count 15.4433 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0626 loss_dq_cgp_basis_usage_01 0.0586 loss_dq_cgp_basis_usage_02 0.0623 loss_dq_cgp_basis_usage_03 0.0587 loss_dq_cgp_basis_usage_04 0.0595 loss_dq_cgp_basis_usage_05 0.0649 loss_dq_cgp_basis_usage_06 0.0624 loss_dq_cgp_basis_usage_07 0.0637 loss_dq_cgp_basis_usage_08 0.0629 loss_dq_cgp_basis_usage_09 0.0633 loss_dq_cgp_basis_usage_10 0.0594 loss_dq_cgp_basis_usage_11 0.0627 loss_dq_cgp_basis_usage_12 0.0653 loss_dq_cgp_basis_usage_13 0.0640 loss_dq_cgp_basis_usage_14 0.0652 loss_dq_cgp_basis_usage_15 0.0645 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4458 loss_exist 0.1647 weighted_loss_overall 0.4713
+
+2026-10-01 20:51:43,617 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.22),
+                ('MR-full-R1@0.5', 55.46),
+                ('MR-full-R1@0.7', 33.4),
+                ('MR-full-mAP', 37.97),
+                ('MR-full-mAP@0.5', 65.31),
+                ('MR-full-mAP@0.75', 36.95),
+                ('MR-full-mIoU', 46.74),
+                ('GMR-TPR', 96.82),
+                ('GMR-TNR', 26.57),
+                ('GMR-BalancedAcc', 61.7)])
+2026-10-01 20:51:43,618 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.82, TNR: 26.57, BalancedAcc: 61.70
+2026-10-01 20:51:43,893 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 48]
+2026-10-01 20:53:59,015 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_53_59 [Epoch] 048 [Loss] loss_reg 0.2017 loss_cls 0.0200 loss_dq_cgp_bind 0.0511 loss_dq_cgp_route 0.0541 loss_dq_cgp_relation 0.0264 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5948 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9716 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1278 loss_dq_cgp_route_load_balance 0.0349 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7377 loss_dq_cgp_effective_basis_count 15.4552 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0627 loss_dq_cgp_basis_usage_01 0.0608 loss_dq_cgp_basis_usage_02 0.0626 loss_dq_cgp_basis_usage_03 0.0574 loss_dq_cgp_basis_usage_04 0.0609 loss_dq_cgp_basis_usage_05 0.0640 loss_dq_cgp_basis_usage_06 0.0624 loss_dq_cgp_basis_usage_07 0.0648 loss_dq_cgp_basis_usage_08 0.0614 loss_dq_cgp_basis_usage_09 0.0642 loss_dq_cgp_basis_usage_10 0.0602 loss_dq_cgp_basis_usage_11 0.0627 loss_dq_cgp_basis_usage_12 0.0631 loss_dq_cgp_basis_usage_13 0.0646 loss_dq_cgp_basis_usage_14 0.0639 loss_dq_cgp_basis_usage_15 0.0642 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4472 loss_exist 0.1685 weighted_loss_overall 0.4740
+
+2026-10-01 20:54:27,762 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.2),
+                ('MR-full-R1@0.5', 52.92),
+                ('MR-full-R1@0.7', 33.09),
+                ('MR-full-mAP', 37.59),
+                ('MR-full-mAP@0.5', 64.04),
+                ('MR-full-mAP@0.75', 36.91),
+                ('MR-full-mIoU', 45.63),
+                ('GMR-TPR', 95.97),
+                ('GMR-TNR', 29.33),
+                ('GMR-BalancedAcc', 62.65)])
+2026-10-01 20:54:27,763 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.97, TNR: 29.33, BalancedAcc: 62.65
+2026-10-01 20:54:28,044 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 49]
+2026-10-01 20:56:45,276 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_56_45 [Epoch] 049 [Loss] loss_reg 0.2026 loss_cls 0.0200 loss_dq_cgp_bind 0.0537 loss_dq_cgp_route 0.0556 loss_dq_cgp_relation 0.0268 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5900 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9705 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1323 loss_dq_cgp_route_load_balance 0.0364 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7362 loss_dq_cgp_effective_basis_count 15.4323 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0628 loss_dq_cgp_basis_usage_01 0.0632 loss_dq_cgp_basis_usage_02 0.0630 loss_dq_cgp_basis_usage_03 0.0597 loss_dq_cgp_basis_usage_04 0.0612 loss_dq_cgp_basis_usage_05 0.0637 loss_dq_cgp_basis_usage_06 0.0626 loss_dq_cgp_basis_usage_07 0.0625 loss_dq_cgp_basis_usage_08 0.0610 loss_dq_cgp_basis_usage_09 0.0625 loss_dq_cgp_basis_usage_10 0.0623 loss_dq_cgp_basis_usage_11 0.0627 loss_dq_cgp_basis_usage_12 0.0650 loss_dq_cgp_basis_usage_13 0.0622 loss_dq_cgp_basis_usage_14 0.0631 loss_dq_cgp_basis_usage_15 0.0627 loss_dq_cgp_relation_route_js 0.0420 loss_dq_cgp_relation_attention_js 0.4461 loss_exist 0.1644 weighted_loss_overall 0.4706
+
+2026-10-01 20:57:12,767 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.16),
+                ('MR-full-R1@0.5', 53.66),
+                ('MR-full-R1@0.7', 32.87),
+                ('MR-full-mAP', 37.86),
+                ('MR-full-mAP@0.5', 64.13),
+                ('MR-full-mAP@0.75', 37.11),
+                ('MR-full-mIoU', 46.02),
+                ('GMR-TPR', 95.02),
+                ('GMR-TNR', 31.1),
+                ('GMR-BalancedAcc', 63.06)])
+2026-10-01 20:57:12,767 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.02, TNR: 31.10, BalancedAcc: 63.06
+2026-10-01 20:57:13,020 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 50]
+2026-10-01 20:59:28,438 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_20_59_28 [Epoch] 050 [Loss] loss_reg 0.2003 loss_cls 0.0198 loss_dq_cgp_bind 0.0518 loss_dq_cgp_route 0.0547 loss_dq_cgp_relation 0.0262 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5923 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9710 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1304 loss_dq_cgp_route_load_balance 0.0355 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7370 loss_dq_cgp_effective_basis_count 15.4450 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0628 loss_dq_cgp_basis_usage_01 0.0591 loss_dq_cgp_basis_usage_02 0.0630 loss_dq_cgp_basis_usage_03 0.0584 loss_dq_cgp_basis_usage_04 0.0614 loss_dq_cgp_basis_usage_05 0.0632 loss_dq_cgp_basis_usage_06 0.0630 loss_dq_cgp_basis_usage_07 0.0643 loss_dq_cgp_basis_usage_08 0.0633 loss_dq_cgp_basis_usage_09 0.0638 loss_dq_cgp_basis_usage_10 0.0597 loss_dq_cgp_basis_usage_11 0.0630 loss_dq_cgp_basis_usage_12 0.0624 loss_dq_cgp_basis_usage_13 0.0643 loss_dq_cgp_basis_usage_14 0.0639 loss_dq_cgp_basis_usage_15 0.0643 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4466 loss_exist 0.1615 weighted_loss_overall 0.4646
+
+2026-10-01 20:59:56,908 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.05),
+                ('MR-full-R1@0.5', 53.55),
+                ('MR-full-R1@0.7', 34.15),
+                ('MR-full-mAP', 38.09),
+                ('MR-full-mAP@0.5', 64.39),
+                ('MR-full-mAP@0.75', 37.43),
+                ('MR-full-mIoU', 46.3),
+                ('GMR-TPR', 95.33),
+                ('GMR-TNR', 31.69),
+                ('GMR-BalancedAcc', 63.51)])
+2026-10-01 20:59:56,909 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.33, TNR: 31.69, BalancedAcc: 63.51
+2026-10-01 20:59:57,174 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 51]
+2026-10-01 21:02:11,513 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_02_11 [Epoch] 051 [Loss] loss_reg 0.2004 loss_cls 0.0198 loss_dq_cgp_bind 0.0508 loss_dq_cgp_route 0.0553 loss_dq_cgp_relation 0.0260 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5934 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9714 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1282 loss_dq_cgp_route_load_balance 0.0361 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7365 loss_dq_cgp_effective_basis_count 15.4365 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0628 loss_dq_cgp_basis_usage_01 0.0601 loss_dq_cgp_basis_usage_02 0.0631 loss_dq_cgp_basis_usage_03 0.0594 loss_dq_cgp_basis_usage_04 0.0586 loss_dq_cgp_basis_usage_05 0.0641 loss_dq_cgp_basis_usage_06 0.0628 loss_dq_cgp_basis_usage_07 0.0643 loss_dq_cgp_basis_usage_08 0.0589 loss_dq_cgp_basis_usage_09 0.0648 loss_dq_cgp_basis_usage_10 0.0590 loss_dq_cgp_basis_usage_11 0.0629 loss_dq_cgp_basis_usage_12 0.0647 loss_dq_cgp_basis_usage_13 0.0646 loss_dq_cgp_basis_usage_14 0.0649 loss_dq_cgp_basis_usage_15 0.0650 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4454 loss_exist 0.1575 weighted_loss_overall 0.4605
+
+2026-10-01 21:02:39,256 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 63.63),
+                ('MR-full-R1@0.5', 53.98),
+                ('MR-full-R1@0.7', 34.04),
+                ('MR-full-mAP', 38.02),
+                ('MR-full-mAP@0.5', 64.41),
+                ('MR-full-mAP@0.75', 36.59),
+                ('MR-full-mIoU', 46.26),
+                ('GMR-TPR', 96.18),
+                ('GMR-TNR', 27.56),
+                ('GMR-BalancedAcc', 61.87)])
+2026-10-01 21:02:39,256 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 96.18, TNR: 27.56, BalancedAcc: 61.87
+2026-10-01 21:02:39,511 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 52]
+2026-10-01 21:04:53,904 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_04_53 [Epoch] 052 [Loss] loss_reg 0.1977 loss_cls 0.0196 loss_dq_cgp_bind 0.0500 loss_dq_cgp_route 0.0558 loss_dq_cgp_relation 0.0259 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5933 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9711 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1287 loss_dq_cgp_route_load_balance 0.0366 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7359 loss_dq_cgp_effective_basis_count 15.4292 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0628 loss_dq_cgp_basis_usage_01 0.0591 loss_dq_cgp_basis_usage_02 0.0630 loss_dq_cgp_basis_usage_03 0.0580 loss_dq_cgp_basis_usage_04 0.0610 loss_dq_cgp_basis_usage_05 0.0656 loss_dq_cgp_basis_usage_06 0.0632 loss_dq_cgp_basis_usage_07 0.0645 loss_dq_cgp_basis_usage_08 0.0584 loss_dq_cgp_basis_usage_09 0.0651 loss_dq_cgp_basis_usage_10 0.0573 loss_dq_cgp_basis_usage_11 0.0630 loss_dq_cgp_basis_usage_12 0.0653 loss_dq_cgp_basis_usage_13 0.0654 loss_dq_cgp_basis_usage_14 0.0643 loss_dq_cgp_basis_usage_15 0.0639 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4458 loss_exist 0.1498 weighted_loss_overall 0.4490
+
+2026-10-01 21:05:21,178 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.26),
+                ('MR-full-R1@0.5', 54.19),
+                ('MR-full-R1@0.7', 33.19),
+                ('MR-full-mAP', 37.9),
+                ('MR-full-mAP@0.5', 64.71),
+                ('MR-full-mAP@0.75', 36.79),
+                ('MR-full-mIoU', 46.39),
+                ('GMR-TPR', 94.38),
+                ('GMR-TNR', 30.71),
+                ('GMR-BalancedAcc', 62.54)])
+2026-10-01 21:05:21,178 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.38, TNR: 30.71, BalancedAcc: 62.54
+2026-10-01 21:05:21,428 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 53]
+2026-10-01 21:07:36,661 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_07_36 [Epoch] 053 [Loss] loss_reg 0.1968 loss_cls 0.0195 loss_dq_cgp_bind 0.0512 loss_dq_cgp_route 0.0555 loss_dq_cgp_relation 0.0261 loss_dq_cgp_smooth 0.0098 loss_dq_cgp_level_js 0.5942 loss_dq_cgp_adjacent_js 0.0098 loss_dq_cgp_point_correction_ratio 0.9711 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1280 loss_dq_cgp_route_load_balance 0.0363 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7363 loss_dq_cgp_effective_basis_count 15.4331 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0638 loss_dq_cgp_basis_usage_01 0.0588 loss_dq_cgp_basis_usage_02 0.0636 loss_dq_cgp_basis_usage_03 0.0589 loss_dq_cgp_basis_usage_04 0.0605 loss_dq_cgp_basis_usage_05 0.0653 loss_dq_cgp_basis_usage_06 0.0632 loss_dq_cgp_basis_usage_07 0.0638 loss_dq_cgp_basis_usage_08 0.0599 loss_dq_cgp_basis_usage_09 0.0637 loss_dq_cgp_basis_usage_10 0.0567 loss_dq_cgp_basis_usage_11 0.0639 loss_dq_cgp_basis_usage_12 0.0652 loss_dq_cgp_basis_usage_13 0.0639 loss_dq_cgp_basis_usage_14 0.0643 loss_dq_cgp_basis_usage_15 0.0645 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4463 loss_exist 0.1513 weighted_loss_overall 0.4494
+
+2026-10-01 21:08:04,224 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.54),
+                ('MR-full-R1@0.5', 54.4),
+                ('MR-full-R1@0.7', 33.3),
+                ('MR-full-mAP', 38.0),
+                ('MR-full-mAP@0.5', 64.82),
+                ('MR-full-mAP@0.75', 37.31),
+                ('MR-full-mIoU', 46.78),
+                ('GMR-TPR', 94.59),
+                ('GMR-TNR', 32.48),
+                ('GMR-BalancedAcc', 63.54)])
+2026-10-01 21:08:04,224 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.59, TNR: 32.48, BalancedAcc: 63.54
+2026-10-01 21:08:04,484 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 54]
+2026-10-01 21:10:19,192 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_10_19 [Epoch] 054 [Loss] loss_reg 0.1964 loss_cls 0.0195 loss_dq_cgp_bind 0.0511 loss_dq_cgp_route 0.0563 loss_dq_cgp_relation 0.0261 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5919 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9707 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1305 loss_dq_cgp_route_load_balance 0.0371 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7355 loss_dq_cgp_effective_basis_count 15.4209 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0628 loss_dq_cgp_basis_usage_01 0.0575 loss_dq_cgp_basis_usage_02 0.0632 loss_dq_cgp_basis_usage_03 0.0568 loss_dq_cgp_basis_usage_04 0.0605 loss_dq_cgp_basis_usage_05 0.0656 loss_dq_cgp_basis_usage_06 0.0629 loss_dq_cgp_basis_usage_07 0.0645 loss_dq_cgp_basis_usage_08 0.0618 loss_dq_cgp_basis_usage_09 0.0648 loss_dq_cgp_basis_usage_10 0.0597 loss_dq_cgp_basis_usage_11 0.0628 loss_dq_cgp_basis_usage_12 0.0659 loss_dq_cgp_basis_usage_13 0.0638 loss_dq_cgp_basis_usage_14 0.0648 loss_dq_cgp_basis_usage_15 0.0627 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4469 loss_exist 0.1524 weighted_loss_overall 0.4499
+
+2026-10-01 21:10:46,888 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.96),
+                ('MR-full-R1@0.5', 54.93),
+                ('MR-full-R1@0.7', 32.45),
+                ('MR-full-mAP', 38.01),
+                ('MR-full-mAP@0.5', 65.48),
+                ('MR-full-mAP@0.75', 36.85),
+                ('MR-full-mIoU', 46.97),
+                ('GMR-TPR', 95.23),
+                ('GMR-TNR', 31.1),
+                ('GMR-BalancedAcc', 63.17)])
+2026-10-01 21:10:46,888 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.23, TNR: 31.10, BalancedAcc: 63.17
+2026-10-01 21:10:47,157 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 55]
+2026-10-01 21:13:02,050 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_13_02 [Epoch] 055 [Loss] loss_reg 0.1969 loss_cls 0.0194 loss_dq_cgp_bind 0.0503 loss_dq_cgp_route 0.0559 loss_dq_cgp_relation 0.0265 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5896 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9702 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1332 loss_dq_cgp_route_load_balance 0.0367 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7359 loss_dq_cgp_effective_basis_count 15.4274 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0627 loss_dq_cgp_basis_usage_01 0.0597 loss_dq_cgp_basis_usage_02 0.0632 loss_dq_cgp_basis_usage_03 0.0608 loss_dq_cgp_basis_usage_04 0.0636 loss_dq_cgp_basis_usage_05 0.0633 loss_dq_cgp_basis_usage_06 0.0632 loss_dq_cgp_basis_usage_07 0.0629 loss_dq_cgp_basis_usage_08 0.0628 loss_dq_cgp_basis_usage_09 0.0632 loss_dq_cgp_basis_usage_10 0.0580 loss_dq_cgp_basis_usage_11 0.0631 loss_dq_cgp_basis_usage_12 0.0630 loss_dq_cgp_basis_usage_13 0.0635 loss_dq_cgp_basis_usage_14 0.0648 loss_dq_cgp_basis_usage_15 0.0621 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4471 loss_exist 0.1505 weighted_loss_overall 0.4479
+
+2026-10-01 21:13:29,793 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.32),
+                ('MR-full-R1@0.5', 53.55),
+                ('MR-full-R1@0.7', 33.4),
+                ('MR-full-mAP', 37.87),
+                ('MR-full-mAP@0.5', 64.28),
+                ('MR-full-mAP@0.75', 37.35),
+                ('MR-full-mIoU', 46.58),
+                ('GMR-TPR', 94.38),
+                ('GMR-TNR', 31.69),
+                ('GMR-BalancedAcc', 63.04)])
+2026-10-01 21:13:29,794 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.38, TNR: 31.69, BalancedAcc: 63.04
+2026-10-01 21:13:30,048 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 56]
+2026-10-01 21:15:43,063 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_15_43 [Epoch] 056 [Loss] loss_reg 0.1949 loss_cls 0.0191 loss_dq_cgp_bind 0.0493 loss_dq_cgp_route 0.0553 loss_dq_cgp_relation 0.0256 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5913 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9710 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1308 loss_dq_cgp_route_load_balance 0.0361 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7365 loss_dq_cgp_effective_basis_count 15.4359 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0640 loss_dq_cgp_basis_usage_01 0.0574 loss_dq_cgp_basis_usage_02 0.0643 loss_dq_cgp_basis_usage_03 0.0572 loss_dq_cgp_basis_usage_04 0.0619 loss_dq_cgp_basis_usage_05 0.0647 loss_dq_cgp_basis_usage_06 0.0641 loss_dq_cgp_basis_usage_07 0.0635 loss_dq_cgp_basis_usage_08 0.0590 loss_dq_cgp_basis_usage_09 0.0649 loss_dq_cgp_basis_usage_10 0.0582 loss_dq_cgp_basis_usage_11 0.0644 loss_dq_cgp_basis_usage_12 0.0652 loss_dq_cgp_basis_usage_13 0.0638 loss_dq_cgp_basis_usage_14 0.0630 loss_dq_cgp_basis_usage_15 0.0643 loss_dq_cgp_relation_route_js 0.0423 loss_dq_cgp_relation_attention_js 0.4468 loss_exist 0.1487 weighted_loss_overall 0.4425
+
+2026-10-01 21:16:10,633 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.11),
+                ('MR-full-R1@0.5', 53.98),
+                ('MR-full-R1@0.7', 33.72),
+                ('MR-full-mAP', 37.97),
+                ('MR-full-mAP@0.5', 64.51),
+                ('MR-full-mAP@0.75', 37.17),
+                ('MR-full-mIoU', 46.62),
+                ('GMR-TPR', 95.33),
+                ('GMR-TNR', 31.69),
+                ('GMR-BalancedAcc', 63.51)])
+2026-10-01 21:16:10,633 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.33, TNR: 31.69, BalancedAcc: 63.51
+2026-10-01 21:16:10,893 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 57]
+2026-10-01 21:18:25,427 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_18_25 [Epoch] 057 [Loss] loss_reg 0.1943 loss_cls 0.0190 loss_dq_cgp_bind 0.0491 loss_dq_cgp_route 0.0551 loss_dq_cgp_relation 0.0255 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5926 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9713 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1294 loss_dq_cgp_route_load_balance 0.0360 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7366 loss_dq_cgp_effective_basis_count 15.4389 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0633 loss_dq_cgp_basis_usage_01 0.0585 loss_dq_cgp_basis_usage_02 0.0636 loss_dq_cgp_basis_usage_03 0.0595 loss_dq_cgp_basis_usage_04 0.0605 loss_dq_cgp_basis_usage_05 0.0649 loss_dq_cgp_basis_usage_06 0.0637 loss_dq_cgp_basis_usage_07 0.0646 loss_dq_cgp_basis_usage_08 0.0599 loss_dq_cgp_basis_usage_09 0.0635 loss_dq_cgp_basis_usage_10 0.0576 loss_dq_cgp_basis_usage_11 0.0637 loss_dq_cgp_basis_usage_12 0.0643 loss_dq_cgp_basis_usage_13 0.0636 loss_dq_cgp_basis_usage_14 0.0645 loss_dq_cgp_basis_usage_15 0.0643 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4456 loss_exist 0.1420 weighted_loss_overall 0.4347
+
+2026-10-01 21:18:53,288 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.58),
+                ('MR-full-R1@0.5', 54.29),
+                ('MR-full-R1@0.7', 33.19),
+                ('MR-full-mAP', 37.76),
+                ('MR-full-mAP@0.5', 64.99),
+                ('MR-full-mAP@0.75', 36.99),
+                ('MR-full-mIoU', 46.26),
+                ('GMR-TPR', 94.91),
+                ('GMR-TNR', 31.89),
+                ('GMR-BalancedAcc', 63.4)])
+2026-10-01 21:18:53,288 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.91, TNR: 31.89, BalancedAcc: 63.40
+2026-10-01 21:18:53,564 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 58]
+2026-10-01 21:21:08,557 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_21_08 [Epoch] 058 [Loss] loss_reg 0.1931 loss_cls 0.0188 loss_dq_cgp_bind 0.0493 loss_dq_cgp_route 0.0558 loss_dq_cgp_relation 0.0256 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5913 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9707 loss_dq_cgp_point_effect_js 0.0347 loss_dq_cgp_level_query_js 0.1296 loss_dq_cgp_route_load_balance 0.0366 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7360 loss_dq_cgp_effective_basis_count 15.4287 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0635 loss_dq_cgp_basis_usage_01 0.0576 loss_dq_cgp_basis_usage_02 0.0643 loss_dq_cgp_basis_usage_03 0.0592 loss_dq_cgp_basis_usage_04 0.0580 loss_dq_cgp_basis_usage_05 0.0640 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0656 loss_dq_cgp_basis_usage_08 0.0595 loss_dq_cgp_basis_usage_09 0.0651 loss_dq_cgp_basis_usage_10 0.0574 loss_dq_cgp_basis_usage_11 0.0635 loss_dq_cgp_basis_usage_12 0.0650 loss_dq_cgp_basis_usage_13 0.0652 loss_dq_cgp_basis_usage_14 0.0636 loss_dq_cgp_basis_usage_15 0.0652 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4456 loss_exist 0.1430 weighted_loss_overall 0.4338
+
+2026-10-01 21:21:36,308 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.26),
+                ('MR-full-R1@0.5', 53.66),
+                ('MR-full-R1@0.7', 33.51),
+                ('MR-full-mAP', 38.18),
+                ('MR-full-mAP@0.5', 64.56),
+                ('MR-full-mAP@0.75', 38.02),
+                ('MR-full-mIoU', 46.13),
+                ('GMR-TPR', 95.55),
+                ('GMR-TNR', 28.54),
+                ('GMR-BalancedAcc', 62.04)])
+2026-10-01 21:21:36,308 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.55, TNR: 28.54, BalancedAcc: 62.04
+2026-10-01 21:21:36,584 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 59]
+2026-10-01 21:23:51,898 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_23_51 [Epoch] 059 [Loss] loss_reg 0.1935 loss_cls 0.0188 loss_dq_cgp_bind 0.0506 loss_dq_cgp_route 0.0563 loss_dq_cgp_relation 0.0258 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5890 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9706 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1332 loss_dq_cgp_route_load_balance 0.0371 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7355 loss_dq_cgp_effective_basis_count 15.4213 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0645 loss_dq_cgp_basis_usage_01 0.0609 loss_dq_cgp_basis_usage_02 0.0647 loss_dq_cgp_basis_usage_03 0.0585 loss_dq_cgp_basis_usage_04 0.0625 loss_dq_cgp_basis_usage_05 0.0630 loss_dq_cgp_basis_usage_06 0.0639 loss_dq_cgp_basis_usage_07 0.0631 loss_dq_cgp_basis_usage_08 0.0639 loss_dq_cgp_basis_usage_09 0.0615 loss_dq_cgp_basis_usage_10 0.0590 loss_dq_cgp_basis_usage_11 0.0647 loss_dq_cgp_basis_usage_12 0.0628 loss_dq_cgp_basis_usage_13 0.0614 loss_dq_cgp_basis_usage_14 0.0625 loss_dq_cgp_basis_usage_15 0.0632 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4461 loss_exist 0.1439 weighted_loss_overall 0.4348
+
+2026-10-01 21:24:19,287 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.11),
+                ('MR-full-R1@0.5', 54.4),
+                ('MR-full-R1@0.7', 32.66),
+                ('MR-full-mAP', 37.7),
+                ('MR-full-mAP@0.5', 64.4),
+                ('MR-full-mAP@0.75', 36.67),
+                ('MR-full-mIoU', 46.5),
+                ('GMR-TPR', 94.49),
+                ('GMR-TNR', 32.87),
+                ('GMR-BalancedAcc', 63.68)])
+2026-10-01 21:24:19,287 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.49, TNR: 32.87, BalancedAcc: 63.68
+2026-10-01 21:24:19,562 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 60]
+2026-10-01 21:26:34,618 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_26_34 [Epoch] 060 [Loss] loss_reg 0.1893 loss_cls 0.0185 loss_dq_cgp_bind 0.0480 loss_dq_cgp_route 0.0551 loss_dq_cgp_relation 0.0257 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5893 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9703 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1343 loss_dq_cgp_route_load_balance 0.0359 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3862 loss_dq_cgp_usage_entropy 2.7367 loss_dq_cgp_effective_basis_count 15.4405 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0643 loss_dq_cgp_basis_usage_01 0.0605 loss_dq_cgp_basis_usage_02 0.0644 loss_dq_cgp_basis_usage_03 0.0590 loss_dq_cgp_basis_usage_04 0.0619 loss_dq_cgp_basis_usage_05 0.0629 loss_dq_cgp_basis_usage_06 0.0641 loss_dq_cgp_basis_usage_07 0.0640 loss_dq_cgp_basis_usage_08 0.0621 loss_dq_cgp_basis_usage_09 0.0621 loss_dq_cgp_basis_usage_10 0.0608 loss_dq_cgp_basis_usage_11 0.0638 loss_dq_cgp_basis_usage_12 0.0629 loss_dq_cgp_basis_usage_13 0.0627 loss_dq_cgp_basis_usage_14 0.0618 loss_dq_cgp_basis_usage_15 0.0627 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4456 loss_exist 0.1347 weighted_loss_overall 0.4202
+
+2026-10-01 21:27:01,891 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.79),
+                ('MR-full-R1@0.5', 54.51),
+                ('MR-full-R1@0.7', 32.66),
+                ('MR-full-mAP', 37.93),
+                ('MR-full-mAP@0.5', 65.21),
+                ('MR-full-mAP@0.75', 36.65),
+                ('MR-full-mIoU', 46.38),
+                ('GMR-TPR', 94.8),
+                ('GMR-TNR', 31.89),
+                ('GMR-BalancedAcc', 63.35)])
+2026-10-01 21:27:01,892 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.80, TNR: 31.89, BalancedAcc: 63.35
+2026-10-01 21:27:02,154 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 61]
+2026-10-01 21:29:15,352 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_29_15 [Epoch] 061 [Loss] loss_reg 0.1884 loss_cls 0.0183 loss_dq_cgp_bind 0.0466 loss_dq_cgp_route 0.0558 loss_dq_cgp_relation 0.0253 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5905 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9705 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1327 loss_dq_cgp_route_load_balance 0.0367 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7359 loss_dq_cgp_effective_basis_count 15.4286 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0643 loss_dq_cgp_basis_usage_01 0.0614 loss_dq_cgp_basis_usage_02 0.0647 loss_dq_cgp_basis_usage_03 0.0595 loss_dq_cgp_basis_usage_04 0.0620 loss_dq_cgp_basis_usage_05 0.0622 loss_dq_cgp_basis_usage_06 0.0637 loss_dq_cgp_basis_usage_07 0.0630 loss_dq_cgp_basis_usage_08 0.0625 loss_dq_cgp_basis_usage_09 0.0623 loss_dq_cgp_basis_usage_10 0.0610 loss_dq_cgp_basis_usage_11 0.0644 loss_dq_cgp_basis_usage_12 0.0631 loss_dq_cgp_basis_usage_13 0.0610 loss_dq_cgp_basis_usage_14 0.0612 loss_dq_cgp_basis_usage_15 0.0634 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4451 loss_exist 0.1334 weighted_loss_overall 0.4166
+
+2026-10-01 21:29:43,392 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.58),
+                ('MR-full-R1@0.5', 54.08),
+                ('MR-full-R1@0.7', 32.98),
+                ('MR-full-mAP', 37.68),
+                ('MR-full-mAP@0.5', 64.77),
+                ('MR-full-mAP@0.75', 36.47),
+                ('MR-full-mIoU', 46.46),
+                ('GMR-TPR', 95.23),
+                ('GMR-TNR', 29.92),
+                ('GMR-BalancedAcc', 62.57)])
+2026-10-01 21:29:43,393 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.23, TNR: 29.92, BalancedAcc: 62.57
+2026-10-01 21:29:43,644 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 62]
+2026-10-01 21:32:03,539 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_32_03 [Epoch] 062 [Loss] loss_reg 0.1873 loss_cls 0.0182 loss_dq_cgp_bind 0.0478 loss_dq_cgp_route 0.0547 loss_dq_cgp_relation 0.0256 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5905 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9705 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1322 loss_dq_cgp_route_load_balance 0.0355 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7371 loss_dq_cgp_effective_basis_count 15.4460 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0637 loss_dq_cgp_basis_usage_01 0.0606 loss_dq_cgp_basis_usage_02 0.0636 loss_dq_cgp_basis_usage_03 0.0609 loss_dq_cgp_basis_usage_04 0.0600 loss_dq_cgp_basis_usage_05 0.0653 loss_dq_cgp_basis_usage_06 0.0635 loss_dq_cgp_basis_usage_07 0.0620 loss_dq_cgp_basis_usage_08 0.0619 loss_dq_cgp_basis_usage_09 0.0607 loss_dq_cgp_basis_usage_10 0.0601 loss_dq_cgp_basis_usage_11 0.0635 loss_dq_cgp_basis_usage_12 0.0651 loss_dq_cgp_basis_usage_13 0.0621 loss_dq_cgp_basis_usage_14 0.0652 loss_dq_cgp_basis_usage_15 0.0619 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4452 loss_exist 0.1353 weighted_loss_overall 0.4170
+
+2026-10-01 21:32:32,300 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 66.17),
+                ('MR-full-R1@0.5', 54.4),
+                ('MR-full-R1@0.7', 33.51),
+                ('MR-full-mAP', 37.68),
+                ('MR-full-mAP@0.5', 64.74),
+                ('MR-full-mAP@0.75', 35.72),
+                ('MR-full-mIoU', 46.74),
+                ('GMR-TPR', 94.8),
+                ('GMR-TNR', 30.31),
+                ('GMR-BalancedAcc', 62.56)])
+2026-10-01 21:32:32,301 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.80, TNR: 30.31, BalancedAcc: 62.56
+2026-10-01 21:32:32,573 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 63]
+2026-10-01 21:34:48,042 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_34_48 [Epoch] 063 [Loss] loss_reg 0.1866 loss_cls 0.0182 loss_dq_cgp_bind 0.0461 loss_dq_cgp_route 0.0543 loss_dq_cgp_relation 0.0252 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5903 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9703 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1322 loss_dq_cgp_route_load_balance 0.0352 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7374 loss_dq_cgp_effective_basis_count 15.4513 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0632 loss_dq_cgp_basis_usage_01 0.0610 loss_dq_cgp_basis_usage_02 0.0630 loss_dq_cgp_basis_usage_03 0.0594 loss_dq_cgp_basis_usage_04 0.0595 loss_dq_cgp_basis_usage_05 0.0635 loss_dq_cgp_basis_usage_06 0.0629 loss_dq_cgp_basis_usage_07 0.0649 loss_dq_cgp_basis_usage_08 0.0603 loss_dq_cgp_basis_usage_09 0.0631 loss_dq_cgp_basis_usage_10 0.0591 loss_dq_cgp_basis_usage_11 0.0630 loss_dq_cgp_basis_usage_12 0.0641 loss_dq_cgp_basis_usage_13 0.0637 loss_dq_cgp_basis_usage_14 0.0636 loss_dq_cgp_basis_usage_15 0.0656 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4453 loss_exist 0.1315 weighted_loss_overall 0.4123
+
+2026-10-01 21:35:15,931 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.11),
+                ('MR-full-R1@0.5', 54.19),
+                ('MR-full-R1@0.7', 33.83),
+                ('MR-full-mAP', 37.86),
+                ('MR-full-mAP@0.5', 64.59),
+                ('MR-full-mAP@0.75', 36.77),
+                ('MR-full-mIoU', 46.58),
+                ('GMR-TPR', 94.59),
+                ('GMR-TNR', 30.71),
+                ('GMR-BalancedAcc', 62.65)])
+2026-10-01 21:35:15,932 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.59, TNR: 30.71, BalancedAcc: 62.65
+2026-10-01 21:35:16,186 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 64]
+2026-10-01 21:37:31,628 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_37_31 [Epoch] 064 [Loss] loss_reg 0.1875 loss_cls 0.0181 loss_dq_cgp_bind 0.0479 loss_dq_cgp_route 0.0556 loss_dq_cgp_relation 0.0252 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5898 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9704 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1326 loss_dq_cgp_route_load_balance 0.0364 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7362 loss_dq_cgp_effective_basis_count 15.4326 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0634 loss_dq_cgp_basis_usage_01 0.0594 loss_dq_cgp_basis_usage_02 0.0635 loss_dq_cgp_basis_usage_03 0.0588 loss_dq_cgp_basis_usage_04 0.0612 loss_dq_cgp_basis_usage_05 0.0657 loss_dq_cgp_basis_usage_06 0.0633 loss_dq_cgp_basis_usage_07 0.0633 loss_dq_cgp_basis_usage_08 0.0602 loss_dq_cgp_basis_usage_09 0.0628 loss_dq_cgp_basis_usage_10 0.0573 loss_dq_cgp_basis_usage_11 0.0629 loss_dq_cgp_basis_usage_12 0.0653 loss_dq_cgp_basis_usage_13 0.0637 loss_dq_cgp_basis_usage_14 0.0647 loss_dq_cgp_basis_usage_15 0.0647 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4453 loss_exist 0.1222 weighted_loss_overall 0.4038
+
+2026-10-01 21:37:59,372 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.48),
+                ('MR-full-R1@0.5', 54.29),
+                ('MR-full-R1@0.7', 33.62),
+                ('MR-full-mAP', 37.81),
+                ('MR-full-mAP@0.5', 64.66),
+                ('MR-full-mAP@0.75', 36.69),
+                ('MR-full-mIoU', 46.2),
+                ('GMR-TPR', 95.23),
+                ('GMR-TNR', 28.94),
+                ('GMR-BalancedAcc', 62.08)])
+2026-10-01 21:37:59,373 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.23, TNR: 28.94, BalancedAcc: 62.08
+2026-10-01 21:37:59,643 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 65]
+2026-10-01 21:40:14,218 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_40_14 [Epoch] 065 [Loss] loss_reg 0.1864 loss_cls 0.0179 loss_dq_cgp_bind 0.0465 loss_dq_cgp_route 0.0554 loss_dq_cgp_relation 0.0251 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5911 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9704 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1321 loss_dq_cgp_route_load_balance 0.0362 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7364 loss_dq_cgp_effective_basis_count 15.4351 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0640 loss_dq_cgp_basis_usage_01 0.0591 loss_dq_cgp_basis_usage_02 0.0634 loss_dq_cgp_basis_usage_03 0.0568 loss_dq_cgp_basis_usage_04 0.0625 loss_dq_cgp_basis_usage_05 0.0652 loss_dq_cgp_basis_usage_06 0.0641 loss_dq_cgp_basis_usage_07 0.0633 loss_dq_cgp_basis_usage_08 0.0613 loss_dq_cgp_basis_usage_09 0.0624 loss_dq_cgp_basis_usage_10 0.0598 loss_dq_cgp_basis_usage_11 0.0633 loss_dq_cgp_basis_usage_12 0.0655 loss_dq_cgp_basis_usage_13 0.0631 loss_dq_cgp_basis_usage_14 0.0631 loss_dq_cgp_basis_usage_15 0.0633 loss_dq_cgp_relation_route_js 0.0422 loss_dq_cgp_relation_attention_js 0.4456 loss_exist 0.1242 weighted_loss_overall 0.4034
+
+2026-10-01 21:40:41,855 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.9),
+                ('MR-full-R1@0.5', 54.29),
+                ('MR-full-R1@0.7', 32.66),
+                ('MR-full-mAP', 37.69),
+                ('MR-full-mAP@0.5', 64.69),
+                ('MR-full-mAP@0.75', 36.25),
+                ('MR-full-mIoU', 46.34),
+                ('GMR-TPR', 94.49),
+                ('GMR-TNR', 32.09),
+                ('GMR-BalancedAcc', 63.29)])
+2026-10-01 21:40:41,856 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.49, TNR: 32.09, BalancedAcc: 63.29
+2026-10-01 21:40:42,114 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 66]
+2026-10-01 21:42:57,153 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_42_57 [Epoch] 066 [Loss] loss_reg 0.1869 loss_cls 0.0178 loss_dq_cgp_bind 0.0466 loss_dq_cgp_route 0.0551 loss_dq_cgp_relation 0.0251 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5908 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9705 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1315 loss_dq_cgp_route_load_balance 0.0359 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7366 loss_dq_cgp_effective_basis_count 15.4388 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0634 loss_dq_cgp_basis_usage_01 0.0599 loss_dq_cgp_basis_usage_02 0.0631 loss_dq_cgp_basis_usage_03 0.0568 loss_dq_cgp_basis_usage_04 0.0608 loss_dq_cgp_basis_usage_05 0.0651 loss_dq_cgp_basis_usage_06 0.0625 loss_dq_cgp_basis_usage_07 0.0650 loss_dq_cgp_basis_usage_08 0.0599 loss_dq_cgp_basis_usage_09 0.0637 loss_dq_cgp_basis_usage_10 0.0608 loss_dq_cgp_basis_usage_11 0.0628 loss_dq_cgp_basis_usage_12 0.0645 loss_dq_cgp_basis_usage_13 0.0640 loss_dq_cgp_basis_usage_14 0.0629 loss_dq_cgp_basis_usage_15 0.0649 loss_dq_cgp_relation_route_js 0.0421 loss_dq_cgp_relation_attention_js 0.4449 loss_exist 0.1213 weighted_loss_overall 0.4009
+
+2026-10-01 21:43:25,092 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 65.01),
+                ('MR-full-R1@0.5', 54.72),
+                ('MR-full-R1@0.7', 34.57),
+                ('MR-full-mAP', 38.3),
+                ('MR-full-mAP@0.5', 65.17),
+                ('MR-full-mAP@0.75', 37.53),
+                ('MR-full-mIoU', 46.89),
+                ('GMR-TPR', 94.49),
+                ('GMR-TNR', 31.3),
+                ('GMR-BalancedAcc', 62.89)])
+2026-10-01 21:43:25,093 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.49, TNR: 31.30, BalancedAcc: 62.89
+2026-10-01 21:43:25,339 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 67]
+2026-10-01 21:45:39,977 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_45_39 [Epoch] 067 [Loss] loss_reg 0.1853 loss_cls 0.0179 loss_dq_cgp_bind 0.0477 loss_dq_cgp_route 0.0556 loss_dq_cgp_relation 0.0252 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5907 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9702 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1316 loss_dq_cgp_route_load_balance 0.0365 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7361 loss_dq_cgp_effective_basis_count 15.4318 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0635 loss_dq_cgp_basis_usage_01 0.0609 loss_dq_cgp_basis_usage_02 0.0636 loss_dq_cgp_basis_usage_03 0.0590 loss_dq_cgp_basis_usage_04 0.0615 loss_dq_cgp_basis_usage_05 0.0636 loss_dq_cgp_basis_usage_06 0.0632 loss_dq_cgp_basis_usage_07 0.0640 loss_dq_cgp_basis_usage_08 0.0607 loss_dq_cgp_basis_usage_09 0.0648 loss_dq_cgp_basis_usage_10 0.0585 loss_dq_cgp_basis_usage_11 0.0634 loss_dq_cgp_basis_usage_12 0.0625 loss_dq_cgp_basis_usage_13 0.0635 loss_dq_cgp_basis_usage_14 0.0633 loss_dq_cgp_basis_usage_15 0.0639 loss_dq_cgp_relation_route_js 0.0420 loss_dq_cgp_relation_attention_js 0.4442 loss_exist 0.1226 weighted_loss_overall 0.4009
+
+2026-10-01 21:46:07,756 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.79),
+                ('MR-full-R1@0.5', 53.98),
+                ('MR-full-R1@0.7', 34.15),
+                ('MR-full-mAP', 37.81),
+                ('MR-full-mAP@0.5', 64.58),
+                ('MR-full-mAP@0.75', 36.53),
+                ('MR-full-mIoU', 46.31),
+                ('GMR-TPR', 95.02),
+                ('GMR-TNR', 31.3),
+                ('GMR-BalancedAcc', 63.16)])
+2026-10-01 21:46:07,757 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 95.02, TNR: 31.30, BalancedAcc: 63.16
+2026-10-01 21:46:08,013 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 68]
+2026-10-01 21:48:24,035 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_48_24 [Epoch] 068 [Loss] loss_reg 0.1848 loss_cls 0.0178 loss_dq_cgp_bind 0.0468 loss_dq_cgp_route 0.0550 loss_dq_cgp_relation 0.0254 loss_dq_cgp_smooth 0.0099 loss_dq_cgp_level_js 0.5918 loss_dq_cgp_adjacent_js 0.0099 loss_dq_cgp_point_correction_ratio 0.9701 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1312 loss_dq_cgp_route_load_balance 0.0359 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7367 loss_dq_cgp_effective_basis_count 15.4401 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0629 loss_dq_cgp_basis_usage_01 0.0602 loss_dq_cgp_basis_usage_02 0.0627 loss_dq_cgp_basis_usage_03 0.0570 loss_dq_cgp_basis_usage_04 0.0613 loss_dq_cgp_basis_usage_05 0.0642 loss_dq_cgp_basis_usage_06 0.0623 loss_dq_cgp_basis_usage_07 0.0651 loss_dq_cgp_basis_usage_08 0.0634 loss_dq_cgp_basis_usage_09 0.0638 loss_dq_cgp_basis_usage_10 0.0594 loss_dq_cgp_basis_usage_11 0.0625 loss_dq_cgp_basis_usage_12 0.0638 loss_dq_cgp_basis_usage_13 0.0643 loss_dq_cgp_basis_usage_14 0.0617 loss_dq_cgp_basis_usage_15 0.0654 loss_dq_cgp_relation_route_js 0.0420 loss_dq_cgp_relation_attention_js 0.4443 loss_exist 0.1260 weighted_loss_overall 0.4033
+
+2026-10-01 21:48:52,638 - flashvtg_dq_cgp_v3_gmr.train - INFO - metrics_no_nms OrderedDict([   ('MR-full-R1@0.3', 64.05),
+                ('MR-full-R1@0.5', 53.98),
+                ('MR-full-R1@0.7', 34.46),
+                ('MR-full-mAP', 38.01),
+                ('MR-full-mAP@0.5', 64.54),
+                ('MR-full-mAP@0.75', 36.85),
+                ('MR-full-mIoU', 46.3),
+                ('GMR-TPR', 94.8),
+                ('GMR-TNR', 31.69),
+                ('GMR-BalancedAcc', 63.25)])
+2026-10-01 21:48:52,639 - flashvtg_dq_cgp_v3_gmr.train - INFO - GMR Metrics - TPR: 94.80, TNR: 31.69, BalancedAcc: 63.25
+2026-10-01 21:48:52,901 - flashvtg_dq_cgp_v3_gmr.train - INFO - [Epoch 69]
+2026-10-01 21:51:09,290 - flashvtg_dq_cgp_v3_gmr.train - INFO - 2026_10_01_21_51_09 [Epoch] 069 [Loss] loss_reg 0.1856 loss_cls 0.0178 loss_dq_cgp_bind 0.0489 loss_dq_cgp_route 0.0550 loss_dq_cgp_relation 0.0252 loss_dq_cgp_smooth 0.0100 loss_dq_cgp_level_js 0.5902 loss_dq_cgp_adjacent_js 0.0100 loss_dq_cgp_point_correction_ratio 0.9702 loss_dq_cgp_point_effect_js 0.0346 loss_dq_cgp_level_query_js 0.1329 loss_dq_cgp_route_load_balance 0.0359 loss_dq_cgp_route_entropy_target 0.0192 loss_dq_cgp_route_level_balance 0.0000 loss_dq_cgp_route_entropy 1.3861 loss_dq_cgp_usage_entropy 2.7367 loss_dq_cgp_effective_basis_count 15.4404 loss_dq_cgp_level_active_basis_count 4.0000 loss_dq_cgp_point_active_basis_count 4.0000 loss_dq_cgp_basis_usage_00 0.0629 loss_dq_cgp_basis_usage_01 0.0619 loss_dq_cgp_basis_usage_02 0.0628 loss_dq_cgp_basis_usage_03 0.0592 loss_dq_cgp_basis_usage_04 0.0624 loss_dq_cgp_basis_usage_05 0.0643 loss_dq_cgp_basis_usage_06 0.0629 loss_dq_cgp_basis_usage_07 0.0621 loss_dq_cgp_basis_usage_08 0.0640 loss_dq_cgp_basis_usage_09 0.0624 loss_dq_cgp_basis_usage_10 0.0601 loss_dq_cgp_basis_usage_11 0.0629 loss_dq_cgp_basis_usage_12 0.0657 loss_dq_cgp_basis_usage_13 0.0619 loss_dq_cgp_basis_usage_14 0.0624 loss_dq_cgp_basis_usage_15 0.0621 loss_dq_cgp_relation_route_js 0.0419 loss_dq_cgp_relation_attention_js 0.4435 loss_exist 0.1286 weighted_loss_overall 0.4065
+

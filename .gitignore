@@ -9,7 +9,11 @@ data/
 features/
 
 # Training runs, checkpoints, logs, and evaluation dumps
-results/
+/results/*
+!/results/dq_cgp_semantic_existence/
+/results/dq_cgp_semantic_existence/*
+!/results/dq_cgp_semantic_existence/A1/
+!/results/dq_cgp_semantic_existence/C1/
 outputs/
 checkpoints/
 *.ckpt
@@ -34,3 +38,9 @@ Thumbs.db
 .idea/
 .pytest_cache/
 .ipynb_checkpoints/
+
+# Published A1/C1 experiment logs, configuration, and metrics only
+/results/dq_cgp_semantic_existence/**/*.jsonl
+/results/dq_cgp_semantic_existence/**/tensorboard_log/
+!/results/dq_cgp_semantic_existence/A1/**/*.log
+!/results/dq_cgp_semantic_existence/C1/**/*.log

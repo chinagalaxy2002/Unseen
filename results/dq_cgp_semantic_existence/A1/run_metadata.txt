@@ -1,0 +1,6 @@
+split=A1
+variant=v3
+seed=3407
+epochs=100
+batch_size=8
+started=2026-10-01T18:18:52+08:00
