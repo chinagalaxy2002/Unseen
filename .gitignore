@@ -1,0 +1,43 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Data and feature storage (symlinked)
+data/
+features/
+
+# Training runs, checkpoints, large predictions, and logs
+experiments/dq_cgp_semantic_generalization/runs/
+runs/
+results/
+outputs/
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.npz
+*.npy
+*.tar
+*.tar.gz
+*.zip
+*.log
+*.jsonl
+
+# Keep json metrics and reports
+!experiments/dq_cgp_semantic_generalization/reports/*.json
+!experiments/dq_cgp_semantic_generalization/reports/*.md
+
+# Sensitive credentials
+*token*.txt
+.env
+
+# Editor & OS artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.pytest_cache/
+.ipynb_checkpoints/

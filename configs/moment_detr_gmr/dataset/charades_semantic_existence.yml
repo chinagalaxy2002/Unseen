@@ -1,0 +1,15 @@
+dset_name: charades_semantic_existence
+clip_length: 1
+max_v_l: 200
+max_ts_val: 200
+max_q_l: 32
+train_path: data/release/semantic_existence_v1/train.jsonl
+eval_path: features/charades_semantic_existence/val_seen.jsonl
+use_exist_head: true
+exist_pool: max
+exist_loss_coef: 1.0
+exist_gate_thd: 0.5
+n_epoch: 30
+max_es_cnt: 8
+bsz: 16
+eval_bsz: 16
