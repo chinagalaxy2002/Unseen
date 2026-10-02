@@ -1,140 +1,119 @@
-# DQ-CGP on Semantic Novelty × Event Existence (Unseen)
+# FlashVTG DQ-CGP on Semantic Novelty × Event Existence Benchmark
 
-This repository evaluates whether applying **DQ-CGP** candidate enhancement alleviates the seen-to-unseen generalization degradation of **FlashVTG-GMR** on the Charades-STA derived semantic novelty × event existence benchmark.
+本项目在 Charades-STA 衍生的语义新颖性 × 事件存在基准（`semantic_existence_v2`）上，对 **FlashVTG-GMR Baseline** 与引入 **DQ-CGP (v3)** 候选细化模块的模型进行了严格的 100 轮实验对比。
 
----
-
-## 1. Research Question
-
-In generalized moment retrieval, models often display severe performance drops when presented with semantically novel queries (unseen actions/compositions), failing to distinguish whether an unseen event actually exists in the video:
-
-$$\text{Baseline Gap} = \text{Seen AUROC} - \text{Unseen AUROC}$$
-
-On the frozen Charades-STA benchmark (split **A1: put/take holdout**), baseline FlashVTG-GMR exhibits:
-- **Seen AUROC**: 0.8158
-- **Unseen AUROC**: 0.5065
-- **Gap**: 0.3093
-
-**Core Hypothesis**: Does integrating DQ-CGP candidate representation refinement mitigate this degradation and achieve positive gap recovery ($\Delta \text{Gap} > 0$) without collapsing seen-split discrimination?
+包含全部 5 个独立划分（`A1`, `A2_alt`, `A3`, `C1`, `C2_alt`）的训练脚本、推理评估脚本以及完整的客观评测数据。
 
 ---
 
-## 2. Experimental Protocol
+## 1. 实验协议与基准说明
 
-- **Partitions**:
-  - $S^+$: Seen semantics, event present
-  - $S^-$: Seen semantics, event absent
-  - $U^+$: Unseen semantics, event present
-  - $U^-$: Unseen semantics, event absent
-- **Training**: Strictly $S^+ / S^-$ only.
-- **Model Selection / Validation**: Strictly seen validation ($S^+ / S^-$) using $(R1@0.7 + R1@0.5)/2$. Unseen splits ($U^+, U^-$) are never observed during training, hyperparameter tuning, or checkpoint selection.
-- **Evaluation**: 4-quadrant diagnostic analysis (AUROC, FRR, RR, raw/gated R1@0.5, matched-pair accuracy) and official GMR evaluation.
-
----
-
-## 3. Repository Structure
-
-```text
-.
-├── configs/            # Configuration files
-├── eval/               # Official GMR evaluation protocol (eval_main.py)
-├── models/             # Model architectures
-│   ├── flash_vtg_gmr/            # Baseline FlashVTG-GMR backbone
-│   ├── flashvtg_dq_cgp_v3_gmr/   # DQ-CGP v3 (sparse top-4 routing + relation loss)
-│   └── flashvtg_dq-cgp-gmr-v2/   # DQ-CGP v2
-├── scripts/            # Automation & diagnostic scripts
-│   ├── sanity_check.py                    # 10-step protocol verification
-│   ├── train_dq_cgp_semantic_existence.sh # Matched 100-epoch training
-│   ├── infer_dq_cgp_semantic_existence.sh # Full test inference & 4-quadrant analysis
-│   ├── analyze_semantic_existence.py      # Diagnostic metric computation
-│   └── validate_release.py                # Release dataset checksum validation
-├── training/           # FlashVTG training, inference, and dataset loaders
-├── plan.md             # Detailed benchmark specification and protocol rules
-└── README.md
-```
+- **测试划分（5 个独立划分，独立训练）**：
+  - **A1**: `put` / `take` 动作保留（Action holdout）
+  - **A2_alt**: `drink` / `pour` 动作保留（Action holdout）
+  - **A3**: `run` / `walk` 动作保留（Action holdout）
+  - **C1**: `sit | bed/chair/couch` 构词保留（Composition holdout）
+  - **C2_alt**: `open/close | box/cabinet` 构词保留（Composition holdout）
+- **数据分区**：
+  - $S^+$: 训练见过的语义，视频中存在目标事件
+  - $S^-$: 训练见过的语义，视频中不存在目标事件
+  - $U^+$: 训练未见的语义，视频中存在目标事件
+  - $U^-$: 训练未见的语义，视频中不存在目标事件
+- **协议约束**：
+  - **训练集**：仅使用 $S^+ / S^-$
+  - **模型选择（Checkpoint Selection）**：严格仅使用 Seen 验证集（$S^+ / S^-$）的平均时序定位指标 $(R1@0.7 + R1@0.5)/2$
+  - **正式测试**：在 $S^+ / S^- / U^+ / U^-$ 上进行四象限与配对评测，$U^+ / U^-$ 绝不参与任何调参或选模。
 
 ---
 
-## 4. Quick Start
+## 2. 实验脚本与复现命令
 
-### Environment Setup
-Requires PyTorch 2.0+ with CUDA support and `nncore`:
+### 2.1 环境准备
 ```bash
 conda activate univtg
 ```
 
-### Pre-Training Sanity Check
-Verify dataset completeness, feature coverage, loss finiteness, and candidate identity degradation:
+### 2.2 协议与代码自检
+在正式训练前执行 10 步完整性自检（包括数据完整性、特征覆盖率、前向损失计算与反向传播）：
 ```bash
 python scripts/sanity_check.py
 ```
 
-### Training
-Train FlashVTG DQ-CGP from scratch for 100 epochs on split `A1` (or `A2_alt`, `A3`, `C1`, `C2_alt`):
+### 2.3 单划分训练命令
+以划分 `A1` 为例，从头训练 100 轮（默认随机种子 3407，早停关闭）：
 ```bash
 bash scripts/train_dq_cgp_semantic_existence.sh A1
 ```
+可通过环境变量指定其他划分和 GPU，例如在 GPU 1 上训练 `C1`：
+```bash
+CUDA_VISIBLE_DEVICES=1 bash scripts/train_dq_cgp_semantic_existence.sh C1
+```
 
-### Inference & Evaluation
-Run full inference with the best validation checkpoint, compute 4-quadrant diagnostics, and run official evaluation:
+### 2.4 推理与四象限评估命令
+使用训练好的 seen 验证最佳 checkpoint 进行全量测试集推理，并运行四象限诊断与官方 GMR 评测：
 ```bash
 bash scripts/infer_dq_cgp_semantic_existence.sh A1
 ```
 
+### 2.5 双 GPU 自动并发与接力队列
+支持在双卡上自动并发执行多划分训练与测试推理（任务自动认领与接力）：
+```bash
+bash scripts/start_multisplit_parallel.sh
+```
 
 ---
 
-## 5. Recorded Experiments (2026-10-01)
+## 3. 测试结果与客观数据对比
 
-Two DQ-CGP v3 runs are available: **A1** (put/take holdout) and **C1** (sit with bed/chair/couch composition holdout). Both use seed **3407**, a configured **100 epochs**, and batch size **8**. Exact arguments are recorded in each run's `opt.json`; training and inference commands are implemented in [the training script](scripts/train_dq_cgp_semantic_existence.sh) and [the inference script](scripts/infer_dq_cgp_semantic_existence.sh).
+### 3.1 五划分完整诊断评测对比表
 
-### Semantic existence diagnostics
+注：
+- $\text{Gap} = \text{Seen AUROC} - \text{Unseen AUROC}$
+- $\text{Gap Recovery} = \text{Baseline Gap} - \text{DQ-CGP Gap}$
+- $\text{Matched PairAcc}$: 同视频、同来源的一对 $U^+ / U^-$ 样本的存在分数排序正确率。
+- 所有数据来自各划分生成的 `diagnostics.json`。
 
-AUROC and its gap are on a 0–1 scale; matched-pair accuracy is a percentage. The refusal threshold is **0.995** for both runs, selected using seen validation balanced accuracy.
+| 划分 (Split) | 模型 (Model) | Seen AUROC | Unseen AUROC | $\Delta$ Unseen | Gap (Seen - Unseen) | Gap Recovery | Matched PairAcc | U+ raw R1@0.5 | U+ gated R1@0.5 | U+ FRR | U- RR |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **A1** | Flash Baseline<br>**Flash DQ-CGP** | 0.8158<br>0.8151 | 0.5065<br>0.4946 | <br>-0.0119 | 0.3093<br>0.3205 | <br>-0.0112 | 55.61%<br>56.25% | 29.46%<br>25.38% | 23.66%<br>20.22% | 19.14%<br>17.42% | 20.82%<br>17.07% |
+| **A2_alt** | Flash Baseline<br>**Flash DQ-CGP** | 0.7729<br>0.7659 | 0.5240<br>0.5016 | <br>-0.0224 | 0.2489<br>0.2643 | <br>-0.0154 | 50.63%<br>50.00% | 42.86%<br>45.24% | 42.86%<br>45.24% | 0.00%<br>0.00% | 0.96%<br>0.00% |
+| **A3** | Flash Baseline<br>**Flash DQ-CGP** | 0.7422<br>0.7491 | 0.6139<br>0.6032 | <br>-0.0107 | 0.1283<br>0.1459 | <br>-0.0176 | 51.55%<br>49.22% | 46.88%<br>**56.25%** | 34.38%<br>**44.27%** | 23.44%<br>17.71% | 43.77%<br>28.62% |
+| **C1** | Flash Baseline<br>**Flash DQ-CGP** | 0.7533<br>0.7443 | 0.5479<br>**0.6206** | <br>**+0.0728** | 0.2054<br>**0.1237** | <br>**+0.0817** | 55.56%<br>**65.28%** | 51.23%<br>51.23% | 48.77%<br>46.91% | 3.70%<br>8.02% | 3.70%<br>21.11% |
+| **C2_alt** | Flash Baseline<br>**Flash DQ-CGP** | 0.6907<br>0.6908 | 0.5474<br>0.5107 | <br>-0.0366 | 0.1434<br>0.1800 | <br>-0.0367 | 54.55%<br>48.48% | 42.61%<br>42.61% | 15.65%<br>13.04% | 61.74%<br>59.13% | 64.57%<br>57.87% |
 
-| Split | Seen AUROC | Unseen AUROC | Seen − unseen gap | Matched-pair accuracy (%) | Pairs |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| A1 | 0.8151 | 0.4946 | 0.3205 | 56.25 | 312 |
-| C1 | 0.7443 | 0.6206 | 0.1237 | 65.28 | 144 |
+---
 
-On A1, the observed gap (0.3205) exceeds the baseline gap reported above (0.3093), giving an approximate gap recovery of **−0.0112**. This run does not support the proposed positive gap recovery on A1. C1 is a different partition and must be compared with its own matched baseline; these single-seed results do not establish statistical significance.
+### 3.2 语义轴（Axis）均值汇总
 
-### Four-quadrant diagnostics
+| 语义轴 (Axis) | 划分集合 | 模型 (Model) | Mean Seen AUROC | Mean Unseen AUROC | $\Delta$ Unseen | Mean Gap | Mean Gap Recovery | Mean Matched PairAcc |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **动作轴 (Action)** | A1, A2_alt, A3 | Flash Baseline<br>**Flash DQ-CGP** | 0.7770<br>0.7767 | 0.5481<br>0.5331 | <br>-0.0150 | 0.2288<br>0.2436 | <br>-0.0147 | 0.5260<br>0.5182 |
+| **构词轴 (Composition)** | C1, C2_alt | Flash Baseline<br>**Flash DQ-CGP** | 0.7220<br>0.7175 | 0.5476<br>**0.5656** | <br>**+0.0180** | 0.1744<br>**0.1518** | <br>**+0.0226** | 0.5505<br>**0.5688** |
+| **整体均值 (Overall)** | 全部 5 划分 | Flash Baseline<br>**Flash DQ-CGP** | 0.7550<br>0.7530 | 0.5479<br>0.5461 | <br>-0.0018 | 0.2071<br>0.2069 | <br>+0.0002 | 0.5358<br>0.5385 |
 
-FRR is false refusal on present events; RR is rejection on absent events. R1@0.5 and rates are percentages. Gated retrieval uses the diagnostic threshold of 0.995.
+---
 
-| Split | Quadrant | Samples | FRR (%) | RR (%) | Raw R1@0.5 (%) | Gated R1@0.5 (%) |
-| --- | --- | ---: | ---: | ---: | ---: | ---: |
-| A1 | S+ | 2218 | 18.94 | — | 59.65 | 49.01 |
-| A1 | S- | 1368 | — | 69.08 | — | — |
-| A1 | U+ | 465 | 17.42 | — | 25.38 | 20.22 |
-| A1 | U- | 1119 | — | 17.07 | — | — |
-| C1 | S+ | 2799 | 44.27 | — | 54.16 | 29.72 |
-| C1 | S- | 1474 | — | 76.32 | — | — |
-| C1 | U+ | 162 | 8.02 | — | 51.23 | 46.91 |
-| C1 | U- | 270 | — | 21.11 | — | — |
+### 3.3 官方 GMR 全测试集指标对比 (Official Test Metrics)
 
-### Official GMR evaluation
+数据提取自各划分的 `official_test_metrics.json`：
 
-The following values use the official evaluator's 0–100 scale. Rej-F1, accuracy, and G-mIoU@1 use the official threshold **0.4**, which differs from the diagnostic threshold.
+| 划分 (Split) | 官方 AUROC (Base → DQ) | 官方 G-mIoU@1 (Base → DQ) | 官方 mAP (Base → DQ) |
+| :--- | :---: | :---: | :---: |
+| **A1** | 66.03% → **66.83%** (+0.80%) | 35.01% → **36.72%** (+1.71%) | 36.91% → **38.34%** (+1.43%) |
+| **A2_alt** | 70.32% → 70.20% (-0.12%) | 38.98% → **39.37%** (+0.39%) | 37.06% → 36.22% (-0.84%) |
+| **A3** | 71.36% → 70.66% (-0.70%) | 39.31% → 38.96% (-0.35%) | 37.62% → **37.71%** (+0.09%) |
+| **C1** | 69.60% → 69.57% (-0.03%) | 39.02% → 37.49% (-1.53%) | 37.88% → **38.26%** (+0.38%) |
+| **C2_alt** | 68.77% → **68.97%** (+0.20%) | 39.21% → 38.39% (-0.82%) | 38.35% → 38.33% (-0.02%) |
 
-| Split | Overall AUROC | Rej-F1@0.4 | Acc@0.4 | G-mIoU@1 | mAP | mR@1 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| A1 | 66.83 | 42.59 | 62.51 | 36.72 | 38.34 | 29.80 |
-| C1 | 69.57 | 38.52 | 69.33 | 37.49 | 38.26 | 29.35 |
+---
 
-### Published artifacts
+## 4. 原始测试数据文件索引
 
-- [A1 experiment logs and metrics](results/dq_cgp_semantic_existence/A1/)
-- [C1 experiment logs and metrics](results/dq_cgp_semantic_existence/C1/)
-- Each experiment contains training/inference console logs, per-epoch training and validation logs, run metadata, `opt.json`, best/latest validation metrics, `diagnostics.json`, and `official_test_metrics.json`.
-- Checkpoints, TensorBoard event files, code archives, and per-query prediction dumps are kept locally and excluded from Git. Running inference again requires the local best checkpoint, datasets, and features.
+所有划分的原始评测输出 JSON 文件均保存在 `metrics/` 目录下并已纳入版本控制：
 
-To repeat the two runs with the required data and features installed:
-
-```bash
-bash scripts/train_dq_cgp_semantic_existence.sh A1
-bash scripts/infer_dq_cgp_semantic_existence.sh A1
-bash scripts/train_dq_cgp_semantic_existence.sh C1
-bash scripts/infer_dq_cgp_semantic_existence.sh C1
-```
+- 汇总对比表：[`metrics/comparison_table.json`](metrics/comparison_table.json)
+- **A1**: [`metrics/A1/diagnostics.json`](metrics/A1/diagnostics.json), [`metrics/A1/official_test_metrics.json`](metrics/A1/official_test_metrics.json)
+- **A2_alt**: [`metrics/A2_alt/diagnostics.json`](metrics/A2_alt/diagnostics.json), [`metrics/A2_alt/official_test_metrics.json`](metrics/A2_alt/official_test_metrics.json)
+- **A3**: [`metrics/A3/diagnostics.json`](metrics/A3/diagnostics.json), [`metrics/A3/official_test_metrics.json`](metrics/A3/official_test_metrics.json)
+- **C1**: [`metrics/C1/diagnostics.json`](metrics/C1/diagnostics.json), [`metrics/C1/official_test_metrics.json`](metrics/C1/official_test_metrics.json)
+- **C2_alt**: [`metrics/C2_alt/diagnostics.json`](metrics/C2_alt/diagnostics.json), [`metrics/C2_alt/official_test_metrics.json`](metrics/C2_alt/official_test_metrics.json)
