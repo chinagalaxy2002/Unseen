@@ -1,0 +1,15 @@
+{
+  "method": "LS-DQCGP",
+  "split": "A1",
+  "seed": 3407,
+  "n_epoch": 100,
+  "lr": 0.0001,
+  "bsz": 16,
+  "native_bind_coef": 0.2,
+  "num_basis": 16,
+  "prompt_length": 6,
+  "router_hidden_dim": 256,
+  "frf_hidden_dim": 512,
+  "temperature": 1.0,
+  "started": "dell-PowerEdge-R750"
+}

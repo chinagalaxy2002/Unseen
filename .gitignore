@@ -8,12 +8,7 @@ __pycache__/
 data/
 features/
 
-# Training runs, checkpoints, large predictions, and logs
-experiments/dq_cgp_semantic_generalization/runs/
-runs/
-results/
-outputs/
-checkpoints/
+# Binary checkpoints and large datasets/dumps
 *.ckpt
 *.pt
 *.pth
@@ -23,12 +18,23 @@ checkpoints/
 *.tar
 *.tar.gz
 *.zip
-*.log
 *.jsonl
 
-# Keep json metrics and reports
+# Exclude smoke tests and non-experiment runs
+experiments/dq_cgp_semantic_generalization/runs/smoke_test/
+/runs/
+/results/
+/outputs/
+/checkpoints/
+
+# Keep reports and json metrics
 !experiments/dq_cgp_semantic_generalization/reports/*.json
 !experiments/dq_cgp_semantic_generalization/reports/*.md
+
+# Keep experiment run logs and metrics
+!experiments/dq_cgp_semantic_generalization/runs/**/*.log
+!experiments/dq_cgp_semantic_generalization/runs/**/*.json
+!experiments/dq_cgp_semantic_generalization/runs/**/status.txt
 
 # Sensitive credentials
 *token*.txt
