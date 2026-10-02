@@ -1,0 +1,17 @@
+{
+  "method": "DQ-CGPv3",
+  "split": "A2_alt",
+  "seed": 3407,
+  "n_epoch": 100,
+  "lr": 0.0001,
+  "bsz": 16,
+  "query_cgp_num_basis": 16,
+  "query_cgp_prompt_length": 6,
+  "query_cgp_router_hidden_dim": 256,
+  "query_cgp_frf_hidden_dim": 512,
+  "query_cgp_temperature": 1.0,
+  "query_cgp_beta": 0.05,
+  "query_cgp_binding_loss_coef": 0.2,
+  "query_cgp_route_loss_coef": 0.01,
+  "started": "dell-PowerEdge-R750"
+}
